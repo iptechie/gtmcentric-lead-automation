@@ -41,7 +41,11 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-[0_8px_16px_rgba(0,0,0,0.2)];
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-[0_8px_16px_rgba(0,0,0,0.2)] transition-all duration-300;
+  }
+
+  .feature-card {
+    @apply glass-card p-6 hover:transform hover:scale-105 hover:bg-white/10;
   }
 
   .hero-background {
@@ -78,21 +82,38 @@
 }
 
 @keyframes pattern-move {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(100px);
-  }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100px); }
 }
 
 @keyframes bg-scroll {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes floating {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+.typing-text {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid;
+  animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
+}
+
+.floating {
+  animation: floating 6s ease-in-out infinite;
 }
 
 @layer utilities {
@@ -100,6 +121,23 @@
     opacity: 0;
     animation: fade-in 0.5s ease-out forwards;
   }
+
+  .animate-slide-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  .stagger-animation > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
 }
 
 @keyframes fade-in {
@@ -113,16 +151,26 @@
   }
 }
 
-.floating {
-  animation: floating 6s ease-in-out infinite;
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes floating {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+.gradient-border {
+  position: relative;
+  background: linear-gradient(to right, #8B5CF6, #D946EF);
+  padding: 1px;
+  border-radius: 0.75rem;
+}
+
+.gradient-border > * {
+  background: #1A1F2C;
+  border-radius: 0.7rem;
 }
 
