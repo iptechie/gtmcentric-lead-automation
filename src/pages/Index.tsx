@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-react";
 
@@ -25,13 +24,10 @@ const Index = () => {
                 </span>
               </div>
               <h1 className="mt-8 text-5xl font-bold tracking-tight sm:text-6xl text-foreground typing-text bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
-                Go-to-Market Strategy
-                <br /> 
-                Simplified with AI
+                Simplify Sales with AI-Powered Lead Management
               </h1>
               <p className="max-w-2xl mt-6 text-lg text-muted-foreground">
-                Transform your GTM execution with our AI-powered platform. From strategy to
-                implementation, we make it seamless.
+                Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
               <form
                 onSubmit={handleSubmit}
@@ -47,7 +43,7 @@ const Index = () => {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] backdrop-blur-sm whitespace-nowrap"
+                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
                 >
                   Get Early Access
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
@@ -163,7 +159,12 @@ const Index = () => {
             <div className="mt-12 glass-card p-8">
               <div className="flex flex-wrap justify-center gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="w-16 h-16 rounded-full bg-white/10 animate-pulse" />
+                  <img
+                    key={i}
+                    src={`https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=64&h=64&fit=crop&crop=faces`}
+                    alt={`Company ${i + 1}`}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
                 ))}
               </div>
             </div>
@@ -175,7 +176,7 @@ const Index = () => {
       <section className="py-20 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
         <div className="container px-4 mx-auto">
-          <div className="max-w-2xl mx-auto text-center animate-fade-in">
+          <div className="max-w-lg mx-auto text-center animate-fade-in">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Get in Early—Unlock Exclusive Benefits
             </h2>
@@ -270,4 +271,3 @@ const Index = () => {
 };
 
 export default Index;
-
