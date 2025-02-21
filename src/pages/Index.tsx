@@ -14,44 +14,24 @@ const Index = () => {
     <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Enhanced Background Animation */}
-        <div className="hero-background">
-          <div className="floating-orb-1" />
-          <div className="floating-orb-2" />
-          <div className="floating-orb-3" />
-          <div className="noise-overlay" />
-          <div className="mesh-gradient" />
-          <div className="moving-grid" />
-        </div>
-
-        <div className="container px-4 pt-20 pb-20 mx-auto relative z-10">
+        <div className="hero-background" />
+        <div className="container px-4 pt-32 pb-20 mx-auto relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="flex-1 text-left space-y-6 animate-fade-in">
-              {/* GTMCentric Label with Glow */}
-              <div className="inline-flex">
-                <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full backdrop-blur-sm shadow-glow transition-all duration-300 hover:shadow-glow-intense">
+            <div className="flex-1 text-left animate-fade-in space-y-8">
+              <div className="flex">
+                <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
                   GTMCentric
                 </span>
               </div>
-
-              {/* Split Heading with Staggered Animation */}
-              <div className="space-y-2">
-                <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground stagger-text bg-clip-text text-transparent bg-gradient-to-br from-white via-white/95 to-white/70">
-                  Go-to-Market Strategy,
-                </h1>
-                <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground stagger-text-delay bg-clip-text text-transparent bg-gradient-to-br from-white via-white/95 to-white/70">
-                  Simplified with AI
-                </h1>
-              </div>
-
-              <p className="max-w-xl text-lg text-muted-foreground stagger-text-delay-2">
-                Transform your GTM execution with our AI-powered platform. From strategy to
-                implementation, we make it seamless.
+              <h1 className="mt-8 text-5xl font-bold tracking-tight sm:text-6xl text-foreground typing-text bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+                Simplify Sales with AI-Powered Lead Management
+              </h1>
+              <p className="max-w-2xl mt-6 text-lg text-muted-foreground">
+                Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
-
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-4 max-w-md stagger-text-delay-3"
+                className="flex flex-col sm:flex-row gap-4 max-w-md"
               >
                 <input
                   type="email"
@@ -63,18 +43,16 @@ const Index = () => {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap hover:shadow-glow-primary"
+                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
                 >
                   Get Early Access
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
               </form>
-
-              <p className="text-sm text-muted-foreground stagger-text-delay-4">
+              <p className="text-sm text-muted-foreground">
                 Join 200+ companies already transforming their GTM strategy
               </p>
             </div>
-
             <div className="flex-1 relative">
               <div className="floating glass-card p-8 mx-auto max-w-md">
                 <img

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -50,82 +51,33 @@
   .hero-background {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 0% 0%, #8B5CF630 0%, transparent 50%),
-                radial-gradient(circle at 100% 0%, #D946EF30 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, #1A1F2C 0%, #131620 100%);
-    overflow: hidden;
+    background: 
+      radial-gradient(circle at 0% 0%, #8B5CF620 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, #D946EF20 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, #1A1F2C 0%, #131620 100%);
     z-index: -1;
+    overflow: hidden;
   }
 
-  .noise-overlay {
+  .hero-background::before {
+    content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    mix-blend-mode: overlay;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80h-80z' fill='none' stroke='%238B5CF610' stroke-width='1'/%3E%3C/svg%3E") repeat;
+    mask-image: radial-gradient(circle at 50% 0%, black, transparent 70%);
+    animation: pattern-move 20s linear infinite;
   }
 
-  .mesh-gradient {
+  .hero-background::after {
+    content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, #8B5CF610 0%, transparent 50%);
-    animation: mesh-animate 20s ease infinite alternate;
-  }
-
-  .moving-grid {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(to right, #ffffff05 1px, transparent 1px),
-      linear-gradient(to bottom, #ffffff05 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: grid-move 20s linear infinite;
-  }
-
-  .floating-orb-1, .floating-orb-2, .floating-orb-3 {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-  }
-
-  .floating-orb-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle at center, #8B5CF620, transparent 70%);
-    top: 10%;
-    left: 5%;
-    animation: float-1 15s ease-in-out infinite;
-  }
-
-  .floating-orb-2 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle at center, #D946EF20, transparent 70%);
-    top: 20%;
-    right: 10%;
-    animation: float-2 20s ease-in-out infinite;
-  }
-
-  .floating-orb-3 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle at center, #8B5CF615, transparent 70%);
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: float-3 18s ease-in-out infinite;
-  }
-
-  .shadow-glow {
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-  }
-
-  .shadow-glow-intense {
-    box-shadow: 0 0 25px rgba(139, 92, 246, 0.3);
-  }
-
-  .shadow-glow-primary {
-    box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30l30-30H0z' fill='%23D946EF05'/%3E%3C/svg%3E") repeat;
+    animation: bg-scroll 30s linear infinite;
+    opacity: 0.5;
   }
 }
 
@@ -222,53 +174,3 @@
   border-radius: 0.7rem;
 }
 
-@keyframes float-1 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(20px, -20px); }
-}
-
-@keyframes float-2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-15px, 15px); }
-}
-
-@keyframes float-3 {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -20px); }
-}
-
-@keyframes mesh-animate {
-  0% { opacity: 0.4; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0.4; }
-}
-
-@keyframes grid-move {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(50px); }
-}
-
-.stagger-text {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-.stagger-text-delay {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.2s forwards;
-}
-
-.stagger-text-delay-2 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.4s forwards;
-}
-
-.stagger-text-delay-3 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.6s forwards;
-}
-
-.stagger-text-delay-4 {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out 0.8s forwards;
-}
