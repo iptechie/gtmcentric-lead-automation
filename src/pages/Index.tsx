@@ -12,14 +12,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-secondary to-white">
+    <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
-      <section className="container px-4 pt-32 pb-20 mx-auto text-center">
+      <section className="container px-4 pt-32 pb-20 mx-auto text-center relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
         <div className="animate-fade-in">
-          <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary rounded-full">
+          <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary rounded-full inline-block">
             Coming Soon
           </span>
-          <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl text-foreground">
+          <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
             Simplify Sales with
             <br /> AI-Powered Lead Management
           </h1>
@@ -36,12 +37,12 @@ const Index = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-foreground bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
               required
             />
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-3 text-white transition-all bg-primary rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              className="w-full sm:w-auto px-6 py-3 text-white transition-all bg-primary rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
             >
               Get on the List
               <ArrowRight className="inline-block w-4 h-4 ml-2" />
@@ -54,10 +55,10 @@ const Index = () => {
       </section>
 
       {/* Pain Points */}
-      <section className="py-20 bg-secondary">
+      <section className="py-20 bg-secondary/50 backdrop-blur-sm">
         <div className="container px-4 mx-auto">
           <div className="text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground">
+            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Tired of Losing Leads and Wasting Time?
             </h2>
             <div className="grid gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -69,9 +70,9 @@ const Index = () => {
               ].map((text, i) => (
                 <div
                   key={i}
-                  className="p-6 transition-all bg-white/50 backdrop-blur-sm rounded-xl hover:shadow-lg"
+                  className="glass-card p-6 transition-all duration-300 hover:transform hover:scale-105"
                 >
-                  <p className="text-foreground">{text}</p>
+                  <p className="text-foreground/90">{text}</p>
                 </div>
               ))}
             </div>
@@ -80,10 +81,11 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-white">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent pointer-events-none" />
         <div className="container px-4 mx-auto">
           <div className="text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground">
+            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               What You'll Get with GrowEasy
             </h2>
             <div className="grid gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-3">
@@ -96,9 +98,9 @@ const Index = () => {
               ].map((feature, i) => (
                 <div
                   key={i}
-                  className="p-6 transition-all border rounded-xl hover:shadow-lg hover:-translate-y-1"
+                  className="glass-card p-6 transition-all duration-300 hover:transform hover:-translate-y-2"
                 >
-                  <p className="text-foreground">{feature}</p>
+                  <p className="text-foreground/90">{feature}</p>
                 </div>
               ))}
             </div>
@@ -107,10 +109,10 @@ const Index = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="py-20 bg-accent">
+      <section className="py-20 bg-accent/5 backdrop-blur-sm">
         <div className="container px-4 mx-auto text-center">
           <div className="animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground">
+            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Built for SMBs Like You
             </h2>
             <p className="max-w-2xl mx-auto mt-6 text-lg text-muted-foreground">
@@ -122,10 +124,11 @@ const Index = () => {
       </section>
 
       {/* Waitlist */}
-      <section className="py-20 bg-white">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent pointer-events-none" />
         <div className="container px-4 mx-auto">
           <div className="max-w-2xl mx-auto text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground">
+            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Get in Early—Unlock Exclusive Benefits
             </h2>
             <div className="mt-8 space-y-4 text-left">
@@ -134,7 +137,7 @@ const Index = () => {
                 "50% off your first month on any plan",
                 "Priority support during launch",
               ].map((benefit, i) => (
-                <div key={i} className="flex items-center">
+                <div key={i} className="flex items-center text-foreground/90">
                   <svg
                     className="w-5 h-5 mr-2 text-primary"
                     fill="none"
@@ -154,20 +157,20 @@ const Index = () => {
             </div>
             <form
               onSubmit={handleSubmit}
-              className="max-w-md mx-auto mt-10 space-y-4"
+              className="glass-card p-8 mt-10 space-y-4"
             >
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 text-foreground bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
               />
               <select
                 value={companySize}
                 onChange={(e) => setCompanySize(e.target.value)}
-                className="w-full px-4 py-3 text-foreground bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
               >
                 <option value="">Select company size</option>
@@ -178,7 +181,7 @@ const Index = () => {
               </select>
               <button
                 type="submit"
-                className="w-full px-6 py-3 text-white transition-all bg-primary rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="w-full px-6 py-3 text-white transition-all bg-primary rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
               >
                 Reserve Your Spot Now
                 <ArrowRight className="inline-block w-4 h-4 ml-2" />
@@ -189,31 +192,31 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-secondary">
+      <footer className="py-12 bg-secondary/50 backdrop-blur-sm">
         <div className="container px-4 mx-auto">
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <div className="flex space-x-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground">
+              <a href="#" className="hover:text-foreground transition-colors">
                 About Us
               </a>
-              <a href="#" className="hover:text-foreground">
+              <a href="#" className="hover:text-foreground transition-colors">
                 Contact
               </a>
-              <a href="#" className="hover:text-foreground">
+              <a href="#" className="hover:text-foreground transition-colors">
                 Privacy Policy
               </a>
             </div>
             <div className="flex space-x-6">
               <a
                 href="#"
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="LinkedIn"
               >
                 LinkedIn
               </a>
               <a
                 href="#"
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Twitter"
               >
                 Twitter
