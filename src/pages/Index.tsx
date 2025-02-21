@@ -23,9 +23,14 @@ const Index = () => {
                   GTMCentric
                 </span>
               </div>
-              <h1 className="mt-8 text-5xl font-bold tracking-tight sm:text-6xl text-foreground typing-text bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
-                Simplify Sales with AI-Powered Lead Management
-              </h1>
+              <div className="mt-8 space-y-2">
+                <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+                  Simplify Sales
+                </h1>
+                <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white">
+                  with AI-Powered Lead Management
+                </h1>
+              </div>
               <p className="max-w-2xl mt-6 text-lg text-muted-foreground">
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>

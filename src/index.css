@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -52,9 +51,9 @@
     position: absolute;
     inset: 0;
     background: 
-      radial-gradient(circle at 0% 0%, #8B5CF620 0%, transparent 50%),
-      radial-gradient(circle at 100% 0%, #D946EF20 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, #1A1F2C 0%, #131620 100%);
+      radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15) 0%, transparent 35%),
+      radial-gradient(circle at 85% 85%, rgba(217, 70, 239, 0.15) 0%, transparent 35%),
+      linear-gradient(to bottom right, rgba(139, 92, 246, 0.1), rgba(217, 70, 239, 0.1));
     z-index: -1;
     overflow: hidden;
   }
@@ -63,9 +62,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80h-80z' fill='none' stroke='%238B5CF610' stroke-width='1'/%3E%3C/svg%3E") repeat;
-    mask-image: radial-gradient(circle at 50% 0%, black, transparent 70%);
-    animation: pattern-move 20s linear infinite;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80h-80z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+    mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 60%);
+    animation: pattern-move 30s linear infinite;
   }
 
   .hero-background::after {
@@ -75,9 +74,9 @@
     height: 200%;
     top: -50%;
     left: -50%;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30l30-30H0z' fill='%23D946EF05'/%3E%3C/svg%3E") repeat;
-    animation: bg-scroll 30s linear infinite;
-    opacity: 0.5;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30l30-30H0z' fill='rgba(217, 70, 239, 0.05)'/%3E%3C/svg%3E") repeat;
+    animation: bg-scroll 40s linear infinite;
+    opacity: 0.3;
   }
 }
 
@@ -173,4 +172,3 @@
   background: #1A1F2C;
   border-radius: 0.7rem;
 }
-
