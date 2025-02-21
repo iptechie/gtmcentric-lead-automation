@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
@@ -14,44 +13,57 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
-      <section className="container px-4 pt-32 pb-20 mx-auto text-center relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-        <div className="animate-fade-in">
-          <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary rounded-full inline-block">
-            Coming Soon
-          </span>
-          <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
-            Simplify Sales with
-            <br /> AI-Powered Lead Management
-          </h1>
-          <p className="max-w-2xl mx-auto mt-6 text-lg text-muted-foreground">
-            Automate lead tracking, boost conversions, and grow your business—all at
-            a price that fits your budget.
-          </p>
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center gap-4 max-w-md mx-auto mt-10 sm:flex-row"
-          >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-              required
-            />
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 py-3 text-white transition-all bg-primary rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="hero-background" />
+        <div className="container px-4 pt-32 pb-20 mx-auto text-center relative z-10">
+          <div className="animate-fade-in space-y-8">
+            <div className="flex justify-center">
+              <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
+                GTMCentric
+              </span>
+            </div>
+            <h1 className="mt-8 text-4xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+              Go-to-Market Strategy
+              <br /> Simplified with AI
+            </h1>
+            <p className="max-w-2xl mx-auto mt-6 text-lg text-muted-foreground">
+              Transform your GTM execution with our AI-powered platform. From strategy to
+              implementation, we make it seamless.
+            </p>
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center gap-4 max-w-md mx-auto mt-10 sm:flex-row"
             >
-              Get on the List
-              <ArrowRight className="inline-block w-4 h-4 ml-2" />
-            </button>
-          </form>
-          <p className="mt-4 text-sm text-muted-foreground">
-            Be among the first 500 to unlock exclusive beta perks.
-          </p>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                required
+              />
+              <button
+                type="submit"
+                className="w-full sm:w-auto px-6 py-3 text-white transition-all bg-primary hover:bg-primary/90 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] backdrop-blur-sm"
+              >
+                Get Early Access
+                <ArrowRight className="inline-block w-4 h-4 ml-2" />
+              </button>
+            </form>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Join 200+ companies already transforming their GTM strategy
+            </p>
+
+            {/* Abstract Shapes */}
+            <div className="absolute top-20 -left-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+            <div className="absolute top-40 -right-12 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+          </div>
         </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute top-1/2 left-12 w-1 h-20 bg-gradient-to-b from-primary/20 to-transparent hidden lg:block" />
+        <div className="absolute top-1/3 right-12 w-1 h-20 bg-gradient-to-b from-accent/20 to-transparent hidden lg:block" />
       </section>
 
       {/* Pain Points */}

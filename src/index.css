@@ -32,11 +32,6 @@
   body {
     font-family: 'Inter', sans-serif;
     @apply text-foreground bg-[#1A1F2C] antialiased min-h-screen relative;
-    background-image: 
-      radial-gradient(circle at top left, #8B5CF620 0%, transparent 30%),
-      radial-gradient(circle at top right, #D946EF20 0%, transparent 30%);
-    background-size: 200% 200%;
-    animation: background-shine 8s linear infinite;
   }
 
   ::selection {
@@ -48,6 +43,56 @@
   .glass-card {
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-[0_8px_16px_rgba(0,0,0,0.2)];
   }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 0% 0%, #8B5CF620 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, #D946EF20 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, #1A1F2C 0%, #131620 100%);
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .hero-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80h-80z' fill='none' stroke='%238B5CF610' stroke-width='1'/%3E%3C/svg%3E") repeat;
+    mask-image: radial-gradient(circle at 50% 0%, black, transparent 70%);
+    animation: pattern-move 20s linear infinite;
+  }
+
+  .hero-background::after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30l30-30H0z' fill='%23D946EF05'/%3E%3C/svg%3E") repeat;
+    animation: bg-scroll 30s linear infinite;
+    opacity: 0.5;
+  }
+}
+
+@keyframes pattern-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100px);
+  }
+}
+
+@keyframes bg-scroll {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @layer utilities {
@@ -56,3 +101,28 @@
     animation: fade-in 0.5s ease-out forwards;
   }
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating {
+  animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
