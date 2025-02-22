@@ -1,5 +1,17 @@
 
 import type { Config } from "tailwindcss";
+const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
+
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}
 
 export default {
   darkMode: ["class"],
@@ -48,25 +60,30 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        "fade-in": {
-          "0%": { opacity: "0", transform: "translateY(10px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        "accordion-down": {
+          from: { height: "0", opacity: "0" },
+          to: { height: "var(--radix-accordion-content-height)", opacity: "1" }
         },
-        "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)", opacity: "1" },
+          to: { height: "0", opacity: "0" }
         },
-        "background-shine": {
-          "0%": { backgroundPosition: "200% 200%" },
-          "100%": { backgroundPosition: "-200% -200%" },
-        },
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
+          },
+        }
       },
       animation: {
-        "fade-in": "fade-in 0.5s ease-out",
-        "fade-in-up": "fade-in-up 0.7s ease-out",
-        "background-shine": "background-shine 8s linear infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "aurora": "aurora 60s linear infinite"
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), addVariablesForColors],
 } satisfies Config;
+

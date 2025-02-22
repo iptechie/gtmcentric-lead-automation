@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-react";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const Index = () => {
   const [email, setEmail] = useState("");
@@ -13,12 +14,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="hero-background" />
+      <AuroraBackground className="min-h-screen flex items-center justify-center overflow-hidden">
         <div className="container px-4 pt-32 pb-20 mx-auto relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="flex-1 text-left animate-fade-in space-y-8">
-              <div className="flex">
+          <div className="flex flex-col items-center justify-center gap-12 text-center">
+            <div className="animate-fade-in space-y-8 max-w-4xl">
+              <div className="flex justify-center">
                 <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
                   GTMCentric
                 </span>
@@ -31,12 +31,12 @@ const Index = () => {
                   with AI-Powered Lead Management
                 </h1>
               </div>
-              <p className="max-w-2xl mt-6 text-lg text-muted-foreground">
+              <p className="max-w-2xl mt-6 text-lg text-muted-foreground mx-auto">
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-4 max-w-md"
+                className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
               >
                 <input
                   type="email"
@@ -58,21 +58,9 @@ const Index = () => {
                 Join 200+ companies already transforming their GTM strategy
               </p>
             </div>
-            <div className="flex-1 relative">
-              <div className="floating glass-card p-8 mx-auto max-w-md">
-                <img
-                  src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7"
-                  alt="Dashboard Preview"
-                  className="rounded-lg shadow-2xl w-full"
-                />
-              </div>
-            </div>
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-      </section>
+      </AuroraBackground>
 
       {/* Pain Points */}
       <section className="py-20 relative">
