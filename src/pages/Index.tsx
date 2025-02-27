@@ -29,7 +29,7 @@ const Index = () => {
                   Simplify Sales
                 </h1>
                 <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white">
-                  with AI-Powered Lead Management
+                  with AI-Powered Lead Management Solution
                 </h1>
               </div>
               <p className="max-w-2xl mt-6 text-lg text-muted-foreground mx-auto">
@@ -56,7 +56,7 @@ const Index = () => {
                 </button>
               </form>
               <p className="text-sm text-muted-foreground">
-                Join 200+ companies already transforming their GTM strategy
+                100+ companies already joined for early access
               </p>
             </div>
           </div>
