@@ -104,8 +104,8 @@ const Index = () => {
   // Function to submit form data via JSONP
   const submitFormJSONP = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
-      // The URL of the Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
+      // Updated URL of the Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
       
       // Create a unique callback name to avoid collisions
       const callbackName = 'gtmcentric_callback_' + Date.now();
@@ -165,8 +165,8 @@ const Index = () => {
   // Fallback method using form submission through a hidden iframe (for browsers that block JSONP)
   const submitFormFallback = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
-      // The URL of the Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
+      // Updated URL of the Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
       
       // Create a hidden iframe
       const iframe = document.createElement('iframe');
