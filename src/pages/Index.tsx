@@ -94,6 +94,134 @@ const Index = () => {
     validatePhone(phone, newCode);
   };
 
+  // Function to submit form data via JSONP
+  const submitFormJSONP = (formData: Record<string, string>) => {
+    return new Promise((resolve, reject) => {
+      // The URL of the Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
+      
+      // Create a unique callback name to avoid collisions
+      const callbackName = 'gtmcentric_callback_' + Date.now();
+      
+      // Encode form data for URL parameters
+      const formDataEncoded = encodeURIComponent(JSON.stringify(formData));
+      
+      // Create a global callback function
+      window[callbackName] = (response: any) => {
+        // Clean up: remove script and delete the callback function
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+        delete window[callbackName];
+        
+        // Process the response
+        if (response && response.result === "success") {
+          resolve(response);
+        } else {
+          reject(new Error(response?.error || "Unknown submission error"));
+        }
+      };
+      
+      // Create a script element
+      const script = document.createElement('script');
+      
+      // Set timeout to catch cases where the script doesn't load or callback isn't called
+      const timeoutId = setTimeout(() => {
+        // Clean up if the callback was never called
+        if (window[callbackName]) {
+          delete window[callbackName];
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+          reject(new Error("Request timed out. Please try again."));
+        }
+      }, 20000); // 20 second timeout
+      
+      // Set up error handling for script loading
+      script.onerror = () => {
+        clearTimeout(timeoutId);
+        delete window[callbackName];
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+        reject(new Error("Could not connect to the server. Please try again later."));
+      };
+      
+      // Set the source URL with the data and callback parameters
+      script.src = `${scriptURL}?data=${formDataEncoded}&callback=${callbackName}`;
+      
+      // Append the script to the document to start the request
+      document.head.appendChild(script);
+    });
+  };
+
+  // Fallback method using form submission through a hidden iframe (for browsers that block JSONP)
+  const submitFormFallback = (formData: Record<string, string>) => {
+    return new Promise((resolve, reject) => {
+      // The URL of the Google Apps Script
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
+      
+      // Create a hidden iframe
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      
+      // Create a unique name for the iframe
+      const iframeName = 'gtmcentric_iframe_' + Date.now();
+      iframe.name = iframeName;
+      
+      // Create a form that will be submitted in the iframe
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = scriptURL;
+      form.target = iframeName;
+      
+      // Add a hidden input for the form data
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'data';
+      input.value = JSON.stringify(formData);
+      form.appendChild(input);
+      
+      // Set a timeout in case the iframe method also fails
+      const timeoutId = setTimeout(() => {
+        if (iframe.parentNode) {
+          document.body.removeChild(iframe);
+        }
+        reject(new Error("Request timed out. Please try again."));
+      }, 20000);
+      
+      // Handle iframe load event
+      iframe.onload = () => {
+        clearTimeout(timeoutId);
+        
+        // We don't have direct access to the response in the iframe due to CORS
+        // So we'll assume success after load, but show a disclaimer
+        document.body.removeChild(iframe);
+        
+        // Since we can't verify the actual response, we'll provide a cautious success message
+        resolve({
+          result: "possible_success",
+          message: "Your submission was received, but we couldn't confirm its status. We'll reach out to confirm."
+        });
+      };
+      
+      // Handle iframe error
+      iframe.onerror = () => {
+        clearTimeout(timeoutId);
+        if (iframe.parentNode) {
+          document.body.removeChild(iframe);
+        }
+        reject(new Error("Could not complete submission. Please try again."));
+      };
+      
+      // Append the form to the document, submit it, then remove it
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -107,10 +235,11 @@ const Index = () => {
       return;
     }
     
-    // Set submitting state
+    // Set submitting state to show loading indicator
     setIsSubmitting(true);
     
     try {
+      // Prepare the form data
       const formData = { 
         "First Name": firstName,
         "Last Name": lastName,
@@ -120,71 +249,74 @@ const Index = () => {
         "Company Size": companySize 
       };
       
-      // Updated with the provided deployment URL
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
-      
-      // Use JSONP approach for cross-origin issues
-      const formDataEncoded = encodeURIComponent(JSON.stringify(formData));
-      const jsonpCallback = 'callback' + Date.now();
-      
-      // Create a promise to handle the JSONP response
-      const jsonpPromise = new Promise((resolve, reject) => {
-        // Create a temporary function in the global scope
-        window[jsonpCallback] = (response) => {
-          if (response && response.result === "success") {
-            resolve(response);
-          } else {
-            reject(new Error("Submission failed"));
-          }
+      // First attempt using JSONP
+      try {
+        const result = await submitFormJSONP(formData);
+        console.log("JSONP submission successful:", result);
+        
+        toast({
+          title: "Success!",
+          description: "Thank you for joining our waitlist. We'll be in touch soon.",
+        });
+        
+        // Clear form
+        setFirstName("");
+        setLastName("");
+        setCompanyName("");
+        setEmail("");
+        setPhone("");
+        setCountryCode("+1");
+        setCompanySize("");
+        
+      } catch (jsonpError) {
+        console.warn("JSONP submission failed, trying fallback method:", jsonpError);
+        
+        // If JSONP fails, try the iframe fallback method
+        try {
+          const fallbackResult = await submitFormFallback(formData);
+          console.log("Fallback submission response:", fallbackResult);
           
-          // Clean up the temporary function
-          delete window[jsonpCallback];
-          document.head.removeChild(script);
-        };
-        
-        // Create script tag
-        const script = document.createElement('script');
-        script.src = `${scriptURL}?data=${formDataEncoded}&callback=${jsonpCallback}`;
-        script.onerror = () => {
-          reject(new Error("Script loading failed"));
-          delete window[jsonpCallback];
-          document.head.removeChild(script);
-        };
-        
-        // Add script to document
-        document.head.appendChild(script);
-        
-        // Set timeout in case the callback is never called
-        setTimeout(() => {
-          if (window[jsonpCallback]) {
-            reject(new Error("Request timed out"));
-            delete window[jsonpCallback];
-            document.head.removeChild(script);
+          // Show different toast message for unconfirmed submission
+          if (fallbackResult.result === "possible_success") {
+            toast({
+              title: "Submission Received",
+              description: fallbackResult.message,
+            });
+            
+            // Clear form
+            setFirstName("");
+            setLastName("");
+            setCompanyName("");
+            setEmail("");
+            setPhone("");
+            setCountryCode("+1");
+            setCompanySize("");
+          } else {
+            toast({
+              title: "Success!",
+              description: "Thank you for joining our waitlist. We'll be in touch soon.",
+            });
+            
+            // Clear form
+            setFirstName("");
+            setLastName("");
+            setCompanyName("");
+            setEmail("");
+            setPhone("");
+            setCountryCode("+1");
+            setCompanySize("");
           }
-        }, 10000);
-      });
-      
-      await jsonpPromise;
-      
-      toast({
-        title: "Success!",
-        description: "Thank you for joining our waitlist. We'll be in touch soon.",
-      });
-      
-      // Clear form
-      setFirstName("");
-      setLastName("");
-      setCompanyName("");
-      setEmail("");
-      setPhone("");
-      setCountryCode("+1");
-      setCompanySize("");
+        } catch (fallbackError) {
+          console.error("Both submission methods failed:", fallbackError);
+          throw new Error("We couldn't process your submission after multiple attempts. Please try again later.");
+        }
+      }
       
     } catch (error) {
       console.error('Submission error:', error);
       toast({
         title: "Error",
-        description: "There was a problem submitting your information. Please try again.",
+        description: error instanceof Error ? error.message : "There was a problem submitting your information. Please try again.",
         variant: "destructive",
       });
     } finally {
