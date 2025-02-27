@@ -1,6 +1,7 @@
 
 import type { Config } from "tailwindcss";
 const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
+const colors = require("tailwindcss/colors");
 
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
@@ -57,6 +58,7 @@ export default {
           DEFAULT: "#D946EF",
           foreground: "#FFFFFF",
         },
+        ...colors,
       },
       borderRadius: {
         lg: "var(--radius)",

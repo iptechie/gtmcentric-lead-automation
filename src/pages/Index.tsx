@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { Button as MovingBorderButton } from "@/components/ui/moving-border";
 
 // Define country data with codes, flags and validation rules
 const countries = [
@@ -382,14 +383,19 @@ const Index = () => {
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
               <div className="flex justify-center mt-8">
-                <button
+                <MovingBorderButton
                   onClick={scrollToForm}
-                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
+                  className="bg-[#1A1F2C]/90 text-white"
+                  containerClassName="w-auto min-w-[200px]"
+                  borderClassName="bg-[radial-gradient(var(--primary)_40%,transparent_60%)]"
+                  duration={4000}
                   aria-label="Get Early Access to GTMCentric"
                 >
-                  Get Early Access
-                  <ArrowRight className="inline-block w-4 h-4 ml-2" />
-                </button>
+                  <span className="flex items-center text-white">
+                    Get Early Access
+                    <ArrowRight className="inline-block w-4 h-4 ml-2" />
+                  </span>
+                </MovingBorderButton>
               </div>
               
               {/* Countdown Timer */}
