@@ -19,6 +19,9 @@ const countries = [
 ];
 
 const Index = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -71,6 +74,9 @@ const Index = () => {
     // Here we'll send the form data to Google Apps Script
     try {
       const formData = { 
+        firstName,
+        lastName,
+        companyName,
         email, 
         phone: `${countryCode}${phone}`, 
         companySize 
@@ -101,6 +107,9 @@ const Index = () => {
         });
         
         // Clear form
+        setFirstName("");
+        setLastName("");
+        setCompanyName("");
         setEmail("");
         setPhone("");
         setCountryCode("+1");
@@ -281,9 +290,39 @@ const Index = () => {
               onSubmit={handleSubmit}
               className="glass-card p-6 md:p-8 mt-10 space-y-4"
             >
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                    required
+                  />
+                </div>
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                    required
+                  />
+                </div>
+              </div>
+              <input
+                type="text"
+                placeholder="Company Name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                required
+              />
               <input
                 type="email"
-                placeholder="Enter your company email"
+                placeholder="Company Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
