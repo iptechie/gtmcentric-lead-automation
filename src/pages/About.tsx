@@ -87,13 +87,22 @@ const About = () => {
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4 text-foreground">Ready to transform your sales process?</h2>
             <p className="mb-6 text-muted-foreground">Join our waitlist to be among the first to experience GTMCentric.</p>
-            <Link 
-              to="/" 
-              className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] inline-flex items-center"
-            >
-              Back to Homepage
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+            <div className="flex items-center justify-center gap-4">
+              <Link 
+                to="/" 
+                className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] inline-flex items-center"
+              >
+                Back to Homepage
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+              <Link 
+                to="/contact" 
+                className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] inline-flex items-center"
+              >
+                Contact Us
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </div>
           </div>
         </div>
       </AuroraBackground>

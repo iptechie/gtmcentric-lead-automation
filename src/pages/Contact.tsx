@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, MapPin, Phone, Send, ArrowRight } from "lucide-react";
+import { ArrowLeft, Mail, MapPin, Send, ArrowRight } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
@@ -81,18 +81,8 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-medium text-foreground">Location</h3>
                     <p className="text-foreground/90 mt-1">
-                      San Francisco, California<br />
-                      United States
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <Phone className="w-6 h-6 text-[#8B5CF6] mt-1 mr-4" />
-                  <div>
-                    <h3 className="text-lg font-medium text-foreground">Phone</h3>
-                    <p className="text-foreground/90 mt-1">
-                      Available for enterprise customers
+                      Bengaluru, Karnataka<br />
+                      India
                     </p>
                   </div>
                 </div>
@@ -112,6 +102,22 @@ const Contact = () => {
                   </a>
                   with any questions or partnership inquiries.
                 </p>
+              </div>
+              
+              {/* Navigation links */}
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link 
+                  to="/" 
+                  className="px-4 py-2 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary inline-flex items-center"
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/about" 
+                  className="px-4 py-2 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary inline-flex items-center"
+                >
+                  About Us
+                </Link>
               </div>
             </div>
             
@@ -138,14 +144,16 @@ const Contact = () => {
                   <label htmlFor="email" className="block text-sm font-medium text-foreground/90 mb-2">
                     Your Email
                   </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                      required
+                    />
+                  </div>
                 </div>
                 
                 <div>
@@ -183,16 +191,6 @@ const Contact = () => {
                   )}
                 </button>
               </form>
-              
-              <div className="mt-8 text-center">
-                <Link 
-                  to="/" 
-                  className="inline-flex items-center text-sm text-muted-foreground hover:text-white transition-colors"
-                >
-                  Back to waitlist
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </div>
             </div>
           </div>
         </div>

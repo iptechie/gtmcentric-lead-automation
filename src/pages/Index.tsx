@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
@@ -149,7 +148,7 @@ const Index = () => {
                 </span>
               </div>
               <div className="mt-6 md:mt-8 space-y-2">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
                   Simplify Sales
                 </h1>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white">
