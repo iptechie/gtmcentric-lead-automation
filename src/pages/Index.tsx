@@ -366,18 +366,18 @@ const Index = () => {
                   GTMCentric
                 </span>
               </div>
-              <div className="mt-4 md:mt-6 space-y-2">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+              <div className="mt-6 md:mt-8 space-y-4">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80 pb-2">
                   Simplify Sales
                 </h1>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white pb-2">
                   with AI-Powered Lead Management Solution
                 </h1>
               </div>
-              <p className="max-w-2xl mt-4 text-base md:text-lg text-muted-foreground mx-auto px-4">
+              <p className="max-w-2xl mt-6 text-base md:text-lg text-muted-foreground mx-auto px-4">
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-center mt-8">
                 <button
                   onClick={scrollToForm}
                   className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
@@ -387,7 +387,7 @@ const Index = () => {
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
               </div>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-muted-foreground mt-4">
                 100+ companies already joined for early access
               </p>
             </div>
