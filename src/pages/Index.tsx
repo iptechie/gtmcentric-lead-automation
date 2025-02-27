@@ -5,6 +5,8 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 // Define country data with codes, flags and validation rules
 const countries = [
@@ -101,11 +103,20 @@ const Index = () => {
     validatePhone(phone, newCode);
   };
 
+  // Function to get IST formatted timestamp
+  const getISTTimestamp = () => {
+    const now = new Date();
+    return formatInTimeZone(now, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
+  };
+
   // Function to directly post the form data instead of using JSONP
   const submitFormDirect = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
       // Updated URL of the Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
+      
+      // Add IST timestamp to form data
+      formData["Timestamp"] = getISTTimestamp();
       
       // Create a form data object for the fetch request
       const formDataObj = new FormData();
@@ -137,6 +148,9 @@ const Index = () => {
     return new Promise((resolve, reject) => {
       // Updated URL of the Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
+      
+      // Add IST timestamp to form data
+      formData["Timestamp"] = getISTTimestamp();
       
       // Create a hidden iframe
       const iframe = document.createElement('iframe');
