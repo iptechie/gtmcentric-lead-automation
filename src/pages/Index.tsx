@@ -252,18 +252,6 @@ const Index = () => {
               Designed with input from 30+ small business owners. Join 500+ early
               adopters shaping the future of sales automation.
             </p>
-            <div className="mt-12 glass-card p-6 md:p-8">
-              <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <img
-                    key={i}
-                    src={`https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=64&h=64&fit=crop&crop=faces`}
-                    alt={`Company ${i + 1}`}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
