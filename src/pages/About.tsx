@@ -107,8 +107,7 @@ const About = () => {
         </div>
       </AuroraBackground>
       
-      {/* Simple Footer */}
-      <footer className="py-6 bg-secondary relative">
+      <footer className="py-6 bg-secondary">
         <div className="container max-w-5xl px-4 mx-auto text-center text-sm text-muted-foreground">
           GTM automation, simplified.
         </div>
