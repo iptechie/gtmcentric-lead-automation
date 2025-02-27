@@ -101,68 +101,38 @@ const Index = () => {
     validatePhone(phone, newCode);
   };
 
-  // Function to submit form data via JSONP
-  const submitFormJSONP = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
+  // Function to directly post the form data instead of using JSONP
+  const submitFormDirect = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
       // Updated URL of the Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
       
-      // Create a unique callback name to avoid collisions
-      const callbackName = 'gtmcentric_callback_' + Date.now();
+      // Create a form data object for the fetch request
+      const formDataObj = new FormData();
+      formDataObj.append('data', JSON.stringify(formData));
       
-      // Encode form data for URL parameters
-      const formDataEncoded = encodeURIComponent(JSON.stringify(formData));
-      
-      // Create a global callback function
-      (window as any)[callbackName] = (response: FormSubmissionResponse) => {
-        // Clean up: remove script and delete the callback function
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-        delete (window as any)[callbackName];
-        
-        // Process the response
-        if (response && response.result === "success") {
-          resolve(response);
-        } else {
-          reject(new Error(response?.error || "Unknown submission error"));
-        }
-      };
-      
-      // Create a script element
-      const script = document.createElement('script');
-      
-      // Set timeout to catch cases where the script doesn't load or callback isn't called
-      const timeoutId = setTimeout(() => {
-        // Clean up if the callback was never called
-        if ((window as any)[callbackName]) {
-          delete (window as any)[callbackName];
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-          reject(new Error("Request timed out. Please try again."));
-        }
-      }, 20000); // 20 second timeout
-      
-      // Set up error handling for script loading
-      script.onerror = () => {
-        clearTimeout(timeoutId);
-        delete (window as any)[callbackName];
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-        reject(new Error("Could not connect to the server. Please try again later."));
-      };
-      
-      // Set the source URL with the data and callback parameters
-      script.src = `${scriptURL}?data=${formDataEncoded}&callback=${callbackName}`;
-      
-      // Append the script to the document to start the request
-      document.head.appendChild(script);
+      // Use fetch API to post data directly
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formDataObj,
+        mode: 'no-cors' // This is needed for cross-origin requests to Google Apps Script
+      })
+      .then(() => {
+        // Because of no-cors mode, we can't read the response
+        // Instead, we assume success (will need to check the sheet separately)
+        resolve({
+          result: "possible_success",
+          message: "Your submission was received. We'll reach out to confirm soon."
+        });
+      })
+      .catch(error => {
+        console.error('Direct submission error:', error);
+        reject(new Error("Could not connect to the server. Please try again."));
+      });
     });
   };
 
-  // Fallback method using form submission through a hidden iframe (for browsers that block JSONP)
+  // Fallback method using form submission through a hidden iframe (for browsers that block direct fetch)
   const submitFormFallback = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
       // Updated URL of the Google Apps Script
@@ -256,10 +226,10 @@ const Index = () => {
         "Company Size": companySize 
       };
       
-      // First attempt using JSONP
+      // First attempt using direct fetch
       try {
-        const result = await submitFormJSONP(formData);
-        console.log("JSONP submission successful:", result);
+        const result = await submitFormDirect(formData);
+        console.log("Direct submission successful:", result);
         
         toast({
           title: "Success!",
@@ -275,10 +245,10 @@ const Index = () => {
         setCountryCode("+1");
         setCompanySize("");
         
-      } catch (jsonpError) {
-        console.warn("JSONP submission failed, trying fallback method:", jsonpError);
+      } catch (directError) {
+        console.warn("Direct submission failed, trying fallback method:", directError);
         
-        // If JSONP fails, try the iframe fallback method
+        // If direct fetch fails, try the iframe fallback method
         try {
           const fallbackResult = await submitFormFallback(formData);
           console.log("Fallback submission response:", fallbackResult);
