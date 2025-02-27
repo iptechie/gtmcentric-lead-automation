@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 // Define country data with codes, flags and validation rules
 const countries = [
@@ -29,6 +29,43 @@ const Index = () => {
   const [countryCode, setCountryCode] = useState("+1");
   const [companySize, setCompanySize] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Schema.org structured data for software application
+  const softwareAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GTMCentric",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "5",
+      "priceCurrency": "USD",
+      "description": "Starting at $5/user/month for early access"
+    },
+    "description": "AI-powered lead management and sales automation solution that simplifies sales processes and boosts conversions",
+    "screenshot": "https://gtmcentric.com/og-image.png"
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "GTMCentric",
+    "url": "https://gtmcentric.com",
+    "logo": "https://gtmcentric.com/logo.png",
+    "description": "AI-powered lead management and sales automation solution",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bengaluru",
+      "addressRegion": "Karnataka",
+      "addressCountry": "India"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "connect@gtmcentric.com"
+    }
+  };
 
   const validatePhone = (value: string, selectedCountryCode: string) => {
     // Remove any non-digit characters
@@ -138,6 +175,40 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
+      <Helmet>
+        <title>GTMCentric | AI-Powered Lead Management & Sales Automation Solution</title>
+        <meta name="description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
+        <meta name="keywords" content="GTMCentric, lead management, sales automation, GTM strategy, AI sales tools, lead tracking, sales conversion, sales process optimization" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://gtmcentric.com" />
+        
+        {/* Language */}
+        <meta property="og:locale" content="en_US" />
+        
+        {/* OpenGraph tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="GTMCentric | AI-Powered Lead Management & Sales Automation Solution" />
+        <meta property="og:description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
+        <meta property="og:url" content="https://gtmcentric.com" />
+        <meta property="og:site_name" content="GTMCentric" />
+        <meta property="og:image" content="https://gtmcentric.com/og-image.png" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="GTMCentric | AI-Powered Lead Management & Sales Automation Solution" />
+        <meta name="twitter:description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
+        <meta name="twitter:image" content="https://gtmcentric.com/og-image.png" />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">
+          {JSON.stringify(softwareAppSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+      </Helmet>
+
       {/* Hero Section */}
       <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-16 lg:py-24">
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
@@ -163,6 +234,7 @@ const Index = () => {
                 <button
                   onClick={scrollToForm}
                   className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
+                  aria-label="Get Early Access to GTMCentric"
                 >
                   Get Early Access
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
@@ -272,7 +344,7 @@ const Index = () => {
       </section>
 
       {/* Waitlist */}
-      <section className="py-12 md:py-16 relative">
+      <section className="py-12 md:py-16 relative" id="waitlist-form">
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="max-w-lg mx-auto text-center animate-fade-in">
@@ -295,6 +367,7 @@ const Index = () => {
               id="waitlist-form"
               onSubmit={handleSubmit}
               className="glass-card p-6 md:p-8 mt-8 space-y-4"
+              aria-label="GTMCentric waitlist signup form"
             >
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -305,6 +378,7 @@ const Index = () => {
                     onChange={(e) => setFirstName(e.target.value)}
                     className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                     required
+                    aria-label="First Name"
                   />
                 </div>
                 <div className="flex-1">
@@ -315,6 +389,7 @@ const Index = () => {
                     onChange={(e) => setLastName(e.target.value)}
                     className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                     required
+                    aria-label="Last Name"
                   />
                 </div>
               </div>
@@ -325,6 +400,7 @@ const Index = () => {
                 onChange={(e) => setCompanyName(e.target.value)}
                 className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
+                aria-label="Company Name"
               />
               <input
                 type="email"
@@ -333,12 +409,14 @@ const Index = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
+                aria-label="Company Email"
               />
               <div className="flex gap-4">
                 <select
                   className="px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                   value={countryCode}
                   onChange={handleCountryCodeChange}
+                  aria-label="Country Code"
                 >
                   {countries.map((country) => (
                     <option key={country.code} value={country.code}>
@@ -356,9 +434,10 @@ const Index = () => {
                       phoneError ? "border-red-500" : "border-white/10"
                     } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm`}
                     required
+                    aria-label="Mobile Number"
                   />
                   {phoneError && (
-                    <p className="text-xs text-red-500 mt-1 text-left">{phoneError}</p>
+                    <p className="text-xs text-red-500 mt-1 text-left" role="alert">{phoneError}</p>
                   )}
                 </div>
               </div>
@@ -367,6 +446,7 @@ const Index = () => {
                 onChange={(e) => setCompanySize(e.target.value)}
                 className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
+                aria-label="Company Size"
               >
                 <option value="">Select company size</option>
                 <option value="1-10">1-10 employees</option>
@@ -378,10 +458,11 @@ const Index = () => {
                 type="submit"
                 className="w-full px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
                 disabled={isSubmitting}
+                aria-label="Reserve your spot on the GTMCentric waitlist"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -405,15 +486,12 @@ const Index = () => {
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-muted-foreground">
-              <Link to="/about" className="hover:text-foreground transition-colors">
+              <Link to="/about" className="hover:text-foreground transition-colors" aria-label="About GTMCentric">
                 About Us
               </Link>
-              <Link to="/contact" className="hover:text-foreground transition-colors">
+              <Link to="/contact" className="hover:text-foreground transition-colors" aria-label="Contact GTMCentric">
                 Contact
               </Link>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Privacy Policy
-              </a>
             </div>
           </div>
           <div className="mt-6 text-center text-sm text-muted-foreground">

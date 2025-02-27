@@ -1,10 +1,85 @@
 
 import { Link } from "react-router-dom";
 import { ArrowLeft, Users, Target, Lightbulb, Building, ArrowRight } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
+  // Schema.org structured data for the organization and about page
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "GTMCentric",
+    "url": "https://gtmcentric.com",
+    "logo": "https://gtmcentric.com/logo.png",
+    "description": "AI-powered lead management and sales automation solution",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bengaluru",
+      "addressRegion": "Karnataka",
+      "addressCountry": "India"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "connect@gtmcentric.com"
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://gtmcentric.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://gtmcentric.com/about"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
+      <Helmet>
+        <title>About GTMCentric | AI-Powered Lead Management & Sales Automation</title>
+        <meta name="description" content="Learn about GTMCentric's mission to simplify sales processes through AI-powered lead management and automation for businesses of all sizes." />
+        <meta name="keywords" content="GTMCentric about, sales automation company, AI lead management, GTM strategy automation, sales process optimization" />
+        
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://gtmcentric.com/about" />
+        
+        {/* Language */}
+        <meta property="og:locale" content="en_US" />
+        
+        {/* OpenGraph tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="About GTMCentric | AI-Powered Lead Management & Sales Automation" />
+        <meta property="og:description" content="Learn about GTMCentric's mission to simplify sales processes through AI-powered lead management and automation for businesses of all sizes." />
+        <meta property="og:url" content="https://gtmcentric.com/about" />
+        <meta property="og:site_name" content="GTMCentric" />
+        <meta property="og:image" content="https://gtmcentric.com/og-image.png" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About GTMCentric | AI-Powered Lead Management & Sales Automation" />
+        <meta name="twitter:description" content="Learn about GTMCentric's mission to simplify sales processes through AI-powered lead management and automation for businesses of all sizes." />
+        <meta name="twitter:image" content="https://gtmcentric.com/og-image.png" />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">
+          {JSON.stringify(organizationSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
+      </Helmet>
+      
       <div className="container max-w-5xl px-4 sm:px-6 lg:px-8 py-16 md:py-24 mx-auto">
         {/* Navigation back link */}
         <div className="mb-12">
@@ -89,6 +164,7 @@ const About = () => {
             <Link 
               to="/" 
               className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] inline-flex items-center"
+              aria-label="Navigate to Homepage"
             >
               Back to Homepage
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -96,6 +172,7 @@ const About = () => {
             <Link 
               to="/contact" 
               className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] inline-flex items-center"
+              aria-label="Contact Us"
             >
               Contact Us
               <ArrowRight className="w-4 h-4 ml-2" />
