@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
+import { Link } from "react-router-dom";
 
 // Define country data with codes, flags and validation rules
 const countries = [
@@ -239,13 +240,13 @@ const Index = () => {
                   className="gradient-border"
                 >
                   <div className="feature-card h-full p-6 md:p-8">
-                    <div className="flex items-start">
+                    <div className={`flex ${i === 6 ? "justify-center" : "items-start"}`}>
                       {i === 6 ? (
                         <MessageCircle className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
                       ) : (
                         <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
                       )}
-                      <p className="text-foreground/90 text-left">{feature}</p>
+                      <p className={`text-foreground/90 ${i === 6 ? "text-center" : "text-left"}`}>{feature}</p>
                     </div>
                   </div>
                 </div>
@@ -263,9 +264,8 @@ const Index = () => {
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Built for Growth-Centric Companies
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Designed with input from 30+ small business owners. Join 500+ early
-              adopters shaping the future of sales automation.
+            <p className="mt-6 text-lg text-muted-foreground mx-auto px-4">
+              Designed with inputs from 30+ Sales / GTM Head. Join the future of GTM Strategy & Sales Automation.
             </p>
           </div>
         </div>
@@ -405,30 +405,14 @@ const Index = () => {
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">
+              <Link to="/about" className="hover:text-foreground transition-colors">
                 About Us
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/contact" className="hover:text-foreground transition-colors">
                 Contact
-              </a>
+              </Link>
               <a href="#" className="hover:text-foreground transition-colors">
                 Privacy Policy
-              </a>
-            </div>
-            <div className="flex space-x-6">
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="LinkedIn"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Twitter"
-              >
-                Twitter
               </a>
             </div>
           </div>
