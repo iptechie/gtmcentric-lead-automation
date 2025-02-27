@@ -20,6 +20,13 @@ const countries = [
   { code: "+55", name: "Brazil", flag: "🇧🇷", digits: 11 },
 ];
 
+// Define response type for form submissions
+interface FormSubmissionResponse {
+  result: string;
+  message?: string;
+  error?: string;
+}
+
 const Index = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -95,7 +102,7 @@ const Index = () => {
   };
 
   // Function to submit form data via JSONP
-  const submitFormJSONP = (formData: Record<string, string>) => {
+  const submitFormJSONP = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
       // The URL of the Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
@@ -107,12 +114,12 @@ const Index = () => {
       const formDataEncoded = encodeURIComponent(JSON.stringify(formData));
       
       // Create a global callback function
-      window[callbackName] = (response: any) => {
+      (window as any)[callbackName] = (response: FormSubmissionResponse) => {
         // Clean up: remove script and delete the callback function
         if (script.parentNode) {
           script.parentNode.removeChild(script);
         }
-        delete window[callbackName];
+        delete (window as any)[callbackName];
         
         // Process the response
         if (response && response.result === "success") {
@@ -128,8 +135,8 @@ const Index = () => {
       // Set timeout to catch cases where the script doesn't load or callback isn't called
       const timeoutId = setTimeout(() => {
         // Clean up if the callback was never called
-        if (window[callbackName]) {
-          delete window[callbackName];
+        if ((window as any)[callbackName]) {
+          delete (window as any)[callbackName];
           if (script.parentNode) {
             script.parentNode.removeChild(script);
           }
@@ -140,7 +147,7 @@ const Index = () => {
       // Set up error handling for script loading
       script.onerror = () => {
         clearTimeout(timeoutId);
-        delete window[callbackName];
+        delete (window as any)[callbackName];
         if (script.parentNode) {
           script.parentNode.removeChild(script);
         }
@@ -156,7 +163,7 @@ const Index = () => {
   };
 
   // Fallback method using form submission through a hidden iframe (for browsers that block JSONP)
-  const submitFormFallback = (formData: Record<string, string>) => {
+  const submitFormFallback = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
     return new Promise((resolve, reject) => {
       // The URL of the Google Apps Script
       const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
