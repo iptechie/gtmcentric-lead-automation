@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
@@ -14,7 +15,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
-      <AuroraBackground className="min-h-screen flex items-center justify-center overflow-hidden">
+      <AuroraBackground className="min-h-screen flex items-center justify-center overflow-hidden bg-[#1A1F2C]">
         <div className="container px-4 pt-32 pb-20 mx-auto relative z-10">
           <div className="flex flex-col items-center justify-center gap-12 text-center">
             <div className="animate-fade-in space-y-8 max-w-4xl">
@@ -43,7 +44,7 @@ const Index = () => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                  className="flex-1 px-4 py-3 text-white bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm placeholder-white/50"
                   required
                 />
                 <button
