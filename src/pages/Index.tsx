@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-react";
+import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, WhatsApp } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 
@@ -232,6 +232,7 @@ const Index = () => {
                 "Seamless integration with Gmail, Outlook, Slack, and Mailchimp.",
                 "Dedicated Dashboard for managers to review performance.",
                 "AI-powered smart workflows and automation.",
+                "WhatsApp integration for seamless communication engagement with prospects.",
               ].map((feature, i) => (
                 <div
                   key={i}
@@ -239,7 +240,11 @@ const Index = () => {
                 >
                   <div className="feature-card h-full p-6 md:p-8">
                     <div className="flex items-start">
-                      <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
+                      {i === 6 ? (
+                        <WhatsApp className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
+                      ) : (
+                        <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
+                      )}
                       <p className="text-foreground/90 text-left">{feature}</p>
                     </div>
                   </div>
