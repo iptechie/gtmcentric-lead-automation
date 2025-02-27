@@ -1,4 +1,6 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -31,6 +33,43 @@
   body {
     font-family: 'Inter', sans-serif;
     @apply text-foreground bg-[#1A1F2C] antialiased min-h-screen relative;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl font-medium;
+  }
+
+  h6 {
+    @apply text-base md:text-lg font-medium;
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+  }
+
+  .small-text {
+    @apply text-sm leading-normal;
   }
 
   ::selection {
@@ -171,4 +210,41 @@
 .gradient-border > * {
   background: #1A1F2C;
   border-radius: 0.7rem;
+}
+
+/* Typography utility classes */
+.heading-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80;
+}
+
+.heading-xl {
+  @apply font-jakarta text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight heading-gradient;
+}
+
+.heading-lg {
+  @apply font-jakarta text-3xl md:text-4xl font-bold tracking-tight heading-gradient;
+}
+
+.heading-md {
+  @apply font-jakarta text-2xl md:text-3xl font-semibold tracking-tight;
+}
+
+.heading-sm {
+  @apply font-jakarta text-xl md:text-2xl font-semibold;
+}
+
+.body-lg {
+  @apply text-lg leading-relaxed;
+}
+
+.body-md {
+  @apply text-base leading-relaxed;
+}
+
+.body-sm {
+  @apply text-sm leading-normal;
+}
+
+.body-xs {
+  @apply text-xs leading-normal;
 }
