@@ -5,11 +5,17 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const Index = () => {
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [companySize, setCompanySize] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", { email, companySize });
+    console.log("Form submitted:", { email, phone, companySize });
+  };
+
+  const scrollToForm = () => {
+    const form = document.getElementById('waitlist-form');
+    form?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -35,26 +41,15 @@ const Index = () => {
               <p className="max-w-2xl mt-6 text-lg text-muted-foreground mx-auto">
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-              >
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 text-white bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm placeholder-white/50"
-                  required
-                />
+              <div className="flex justify-center">
                 <button
-                  type="submit"
+                  onClick={scrollToForm}
                   className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
                 >
                   Get Early Access
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
-              </form>
+              </div>
               <p className="text-sm text-muted-foreground">
                 100+ companies already joined for early access
               </p>
@@ -118,8 +113,8 @@ const Index = () => {
                 "AI-powered lead scoring to focus on hot prospects.",
                 "Automate follow-ups and watch conversions soar.",
                 "Seamless integrations with Gmail, Slack, and Mailchimp.",
-                "Affordable plans starting at just $15/month.",
-                "24/7 AI-powered support and guidance.",
+                "Dedicated Dashboard for managers to review performance",
+                "AI-powered smart workflows and automation",
               ].map((feature, i) => (
                 <div
                   key={i}
@@ -144,7 +139,7 @@ const Index = () => {
         <div className="container px-4 mx-auto text-center">
           <div className="animate-fade-in max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Built for SMBs Like You
+              Built for Growth-Centric Companies
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
               Designed with input from 30+ small business owners. Join 500+ early
@@ -177,7 +172,7 @@ const Index = () => {
             <div className="mt-8 space-y-4 text-left">
               {[
                 "Free beta access starting April 2025",
-                "50% off your first month on any plan",
+                "50% off for the first 6 months on any plan - starting at just $5/user/month (regular $10)",
                 "Priority support during launch",
               ].map((benefit, i) => (
                 <div key={i} className="flex items-center text-foreground/90">
@@ -187,17 +182,38 @@ const Index = () => {
               ))}
             </div>
             <form
+              id="waitlist-form"
               onSubmit={handleSubmit}
               className="glass-card p-8 mt-10 space-y-4"
             >
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Enter your company email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
                 required
               />
+              <div className="flex gap-4">
+                <select
+                  className="w-24 px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                  defaultValue="+1"
+                >
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                  <option value="+91">+91</option>
+                  <option value="+86">+86</option>
+                  <option value="+81">+81</option>
+                </select>
+                <input
+                  type="tel"
+                  placeholder="Mobile number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="flex-1 px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                  required
+                />
+              </div>
               <select
                 value={companySize}
                 onChange={(e) => setCompanySize(e.target.value)}
@@ -265,3 +281,4 @@ const Index = () => {
 };
 
 export default Index;
+
