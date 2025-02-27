@@ -24,6 +24,7 @@ const Index = () => {
   const [phoneError, setPhoneError] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
   const [companySize, setCompanySize] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validatePhone = (value: string, selectedCountryCode: string) => {
     // Remove any non-digit characters
@@ -64,27 +65,58 @@ const Index = () => {
       return;
     }
     
-    // Here we'll send the form data
+    // Set submitting state
+    setIsSubmitting(true);
+    
+    // Here we'll send the form data to Google Apps Script
     try {
-      const formData = { email, phone: `${countryCode}${phone}`, companySize };
-      console.log("Form submitted:", formData);
+      const formData = { 
+        email, 
+        phone: `${countryCode}${phone}`, 
+        companySize 
+      };
       
-      toast({
-        title: "Success!",
-        description: "Thank you for joining our waitlist. We'll be in touch soon.",
+      // Replace this URL with your actual Google Apps Script Web App URL
+      const scriptURL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec';
+      
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        mode: 'cors', // This is important for cross-origin requests
       });
       
-      // Clear form
-      setEmail("");
-      setPhone("");
-      setCountryCode("+1");
-      setCompanySize("");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const result = await response.json();
+      
+      if (result.result === 'success') {
+        toast({
+          title: "Success!",
+          description: "Thank you for joining our waitlist. We'll be in touch soon.",
+        });
+        
+        // Clear form
+        setEmail("");
+        setPhone("");
+        setCountryCode("+1");
+        setCompanySize("");
+      } else {
+        throw new Error(result.error || 'An unknown error occurred');
+      }
     } catch (error) {
+      console.error('Submission error:', error);
       toast({
         title: "Error",
         description: "There was a problem submitting your information. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -312,9 +344,22 @@ const Index = () => {
               <button
                 type="submit"
                 className="w-full px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
+                disabled={isSubmitting}
               >
-                Reserve Your Spot Now
-                <ArrowRight className="inline-block w-4 h-4 ml-2" />
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                ) : (
+                  <>
+                    Reserve Your Spot Now
+                    <ArrowRight className="inline-block w-4 h-4 ml-2" />
+                  </>
+                )}
               </button>
             </form>
           </div>
