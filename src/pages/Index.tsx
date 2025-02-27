@@ -387,7 +387,7 @@ const Index = () => {
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
               </div>
-              <p className="text-sm text-muted-foreground mt-12">
+              <p className="text-sm text-muted-foreground mt-16">
                 100+ companies already joined for early access
               </p>
             </div>
