@@ -1,42 +1,41 @@
 
+import { Plus, Check, ArrowRight, X } from "lucide-react";
 import { useState } from "react";
-import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
-import { AuroraBackground } from "@/components/ui/aurora-background";
-import { toast } from "@/components/ui/use-toast";
-import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Helmet } from "react-helmet-async";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { Globe } from "@/components/ui/globe";
 
 // Define country data with codes, flags and validation rules
 const countries = [
-  { code: "+1", name: "United States", flag: "🇺🇸", digits: 10 },
-  { code: "+44", name: "United Kingdom", flag: "🇬🇧", digits: 10 },
-  { code: "+91", name: "India", flag: "🇮🇳", digits: 10 },
-  { code: "+86", name: "China", flag: "🇨🇳", digits: 11 },
-  { code: "+81", name: "Japan", flag: "🇯🇵", digits: 10 },
-  { code: "+49", name: "Germany", flag: "🇩🇪", digits: 11 },
-  { code: "+33", name: "France", flag: "🇫🇷", digits: 9 },
-  { code: "+61", name: "Australia", flag: "🇦🇺", digits: 9 },
-  { code: "+7", name: "Russia", flag: "🇷🇺", digits: 10 },
-  { code: "+55", name: "Brazil", flag: "🇧🇷", digits: 11 },
+  { name: "United States", code: "+1", flag: "🇺🇸" },
+  { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+  { name: "Canada", code: "+1", flag: "🇨🇦" },
+  { name: "Australia", code: "+61", flag: "🇦🇺" },
+  { name: "Germany", code: "+49", flag: "🇩🇪" },
+  { name: "France", code: "+33", flag: "🇫🇷" },
+  { name: "Italy", code: "+39", flag: "🇮🇹" },
+  { name: "Spain", code: "+34", flag: "🇪🇸" },
+  { name: "Japan", code: "+81", flag: "🇯🇵" },
+  { name: "China", code: "+86", flag: "🇨🇳" },
+  { name: "India", code: "+91", flag: "🇮🇳" },
+  { name: "Brazil", code: "+55", flag: "🇧🇷" },
+  { name: "Mexico", code: "+52", flag: "🇲🇽" },
+  { name: "South Korea", code: "+82", flag: "🇰🇷" },
+  { name: "Netherlands", code: "+31", flag: "🇳🇱" },
+  { name: "Singapore", code: "+65", flag: "🇸🇬" },
 ];
 
-// Define response type for form submissions
-interface FormSubmissionResponse {
-  result: string;
-  message?: string;
-  error?: string;
-}
-
-const Index = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [companyName, setCompanyName] = useState("");
+export default function Index() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
   const [companySize, setCompanySize] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,342 +50,502 @@ const Index = () => {
     "name": "GTMCentric",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
+    "description": "A complete go-to-market platform for modern SaaS companies to streamline their marketing, sales, and revenue operations.",
     "offers": {
       "@type": "Offer",
-      "price": "5",
+      "price": "0",
       "priceCurrency": "USD",
-      "description": "Starting at $5/user/month for early access"
-    },
-    "description": "AI-powered lead management and sales automation solution that simplifies sales processes and boosts conversions",
-    "screenshot": "https://gtmcentric.com/og-image.png"
-  };
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "GTMCentric",
-    "url": "https://gtmcentric.com",
-    "logo": "https://gtmcentric.com/logo.png",
-    "description": "AI-powered lead management and sales automation solution",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Bengaluru",
-      "addressRegion": "Karnataka",
-      "addressCountry": "India"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "email": "connect@gtmcentric.com"
+      "availability": "https://schema.org/ComingSoon"
     }
   };
 
-  const validatePhone = (value: string, selectedCountryCode: string) => {
-    // Remove any non-digit characters
-    const digitsOnly = value.replace(/\D/g, "");
-    setPhone(digitsOnly);
-    
-    // Find the selected country's validation rules
-    const country = countries.find(c => c.code === selectedCountryCode);
-    
-    if (!country) return;
-    
-    if (digitsOnly.length === 0) {
-      setPhoneError("");
-    } else if (digitsOnly.length !== country.digits) {
-      setPhoneError(`Phone number must be ${country.digits} digits for ${country.name}`);
-    } else {
-      setPhoneError("");
-    }
-  };
-
-  const handleCountryCodeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCode = e.target.value;
-    setCountryCode(newCode);
-    // Re-validate phone with new country code
-    validatePhone(phone, newCode);
-  };
-
-  // Function to get IST formatted timestamp
-  const getISTTimestamp = () => {
-    const now = new Date();
-    return formatInTimeZone(now, 'Asia/Kolkata', 'yyyy-MM-dd HH:mm:ss');
-  };
-
-  // Function to directly post the form data instead of using JSONP
-  const submitFormDirect = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
-    return new Promise((resolve, reject) => {
-      // Updated URL of the Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
-      
-      // Add IST timestamp to form data
-      formData["Timestamp"] = getISTTimestamp();
-      
-      // Create a form data object for the fetch request
-      const formDataObj = new FormData();
-      formDataObj.append('data', JSON.stringify(formData));
-      
-      // Use fetch API to post data directly
-      fetch(scriptURL, {
-        method: 'POST',
-        body: formDataObj,
-        mode: 'no-cors' // This is needed for cross-origin requests to Google Apps Script
-      })
-      .then(() => {
-        // Because of no-cors mode, we can't read the response
-        // Instead, we assume success (will need to check the sheet separately)
-        resolve({
-          result: "possible_success",
-          message: "Your submission was received. We'll reach out to confirm soon."
-        });
-      })
-      .catch(error => {
-        console.error('Direct submission error:', error);
-        reject(new Error("Could not connect to the server. Please try again."));
-      });
-    });
-  };
-
-  // Fallback method using form submission through a hidden iframe (for browsers that block direct fetch)
-  const submitFormFallback = (formData: Record<string, string>): Promise<FormSubmissionResponse> => {
-    return new Promise((resolve, reject) => {
-      // Updated URL of the Google Apps Script
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwnETcQhav9p8yzHx64zSDbwt8iWsEth7HlSkdPepAg6vwzxaITLHhw3QmA9tsEsxgtkA/exec';
-      
-      // Add IST timestamp to form data
-      formData["Timestamp"] = getISTTimestamp();
-      
-      // Create a hidden iframe
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-      
-      // Create a unique name for the iframe
-      const iframeName = 'gtmcentric_iframe_' + Date.now();
-      iframe.name = iframeName;
-      
-      // Create a form that will be submitted in the iframe
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = scriptURL;
-      form.target = iframeName;
-      
-      // Add a hidden input for the form data
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'data';
-      input.value = JSON.stringify(formData);
-      form.appendChild(input);
-      
-      // Set a timeout in case the iframe method also fails
-      const timeoutId = setTimeout(() => {
-        if (iframe.parentNode) {
-          document.body.removeChild(iframe);
-        }
-        reject(new Error("Request timed out. Please try again."));
-      }, 20000);
-      
-      // Handle iframe load event
-      iframe.onload = () => {
-        clearTimeout(timeoutId);
-        
-        // We don't have direct access to the response in the iframe due to CORS
-        // So we'll assume success after load, but show a disclaimer
-        document.body.removeChild(iframe);
-        
-        // Since we can't verify the actual response, we'll provide a cautious success message
-        resolve({
-          result: "possible_success",
-          message: "Your submission was received, but we couldn't confirm its status. We'll reach out to confirm."
-        });
-      };
-      
-      // Handle iframe error
-      iframe.onerror = () => {
-        clearTimeout(timeoutId);
-        if (iframe.parentNode) {
-          document.body.removeChild(iframe);
-        }
-        reject(new Error("Could not complete submission. Please try again."));
-      };
-      
-      // Append the form to the document, submit it, then remove it
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check if there's a validation error
-    if (phoneError) {
-      toast({
-        title: "Validation Error",
-        description: phoneError,
-        variant: "destructive",
-      });
+    // Validate form
+    if (!name || !email || !companyName || !phoneNumber || !companySize) {
+      alert("Please fill in all fields");
       return;
     }
     
-    // Set submitting state to show loading indicator
+    // Set submitting state
     setIsSubmitting(true);
     
-    try {
-      // Prepare the form data
-      const formData = { 
-        "First Name": firstName,
-        "Last Name": lastName,
-        "Company Name": companyName,
-        "Email": email, 
-        "Phone": `${countryCode}${phone}`, 
-        "Company Size": companySize 
-      };
-      
-      // First attempt using direct fetch
-      try {
-        const result = await submitFormDirect(formData);
-        console.log("Direct submission successful:", result);
-        
-        toast({
-          title: "Success!",
-          description: "Thank you for joining our waitlist. We'll be in touch soon.",
-        });
-        
-        // Clear form
-        setFirstName("");
-        setLastName("");
-        setCompanyName("");
-        setEmail("");
-        setPhone("");
-        setCountryCode("+1");
-        setCompanySize("");
-        
-      } catch (directError) {
-        console.warn("Direct submission failed, trying fallback method:", directError);
-        
-        // If direct fetch fails, try the iframe fallback method
-        try {
-          const fallbackResult = await submitFormFallback(formData);
-          console.log("Fallback submission response:", fallbackResult);
-          
-          // Show different toast message for unconfirmed submission
-          if (fallbackResult.result === "possible_success") {
-            toast({
-              title: "Submission Received",
-              description: fallbackResult.message,
-            });
-            
-            // Clear form
-            setFirstName("");
-            setLastName("");
-            setCompanyName("");
-            setEmail("");
-            setPhone("");
-            setCountryCode("+1");
-            setCompanySize("");
-          } else {
-            toast({
-              title: "Success!",
-              description: "Thank you for joining our waitlist. We'll be in touch soon.",
-            });
-            
-            // Clear form
-            setFirstName("");
-            setLastName("");
-            setCompanyName("");
-            setEmail("");
-            setPhone("");
-            setCountryCode("+1");
-            setCompanySize("");
-          }
-        } catch (fallbackError) {
-          console.error("Both submission methods failed:", fallbackError);
-          throw new Error("We couldn't process your submission after multiple attempts. Please try again later.");
-        }
-      }
-      
-    } catch (error) {
-      console.error('Submission error:', error);
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "There was a problem submitting your information. Please try again.",
-        variant: "destructive",
+    // Simulate API call
+    setTimeout(() => {
+      console.log({
+        name,
+        email,
+        companyName,
+        phoneNumber: `${countryCode}${phoneNumber}`,
+        companySize
       });
-    } finally {
+      
+      // Reset form
+      setName("");
+      setEmail("");
+      setCompanyName("");
+      setPhoneNumber("");
+      setCompanySize("");
+      
+      // End submitting state
       setIsSubmitting(false);
-    }
-  };
-
-  const scrollToForm = () => {
-    const form = document.getElementById('waitlist-form');
-    form?.scrollIntoView({ behavior: 'smooth' });
+      
+      // Show success message
+      alert("Thank you for your interest! We'll be in touch soon.");
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-[#1A1F2C]">
+    <>
       <Helmet>
-        <title>GTMCentric | AI-Powered Lead Management & Sales Automation Solution</title>
-        <meta name="description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
-        <meta name="keywords" content="GTMCentric, lead management, sales automation, GTM strategy, AI sales tools, lead tracking, sales conversion, sales process optimization" />
-        
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://gtmcentric.com" />
-        
-        {/* Language */}
-        <meta property="og:locale" content="en_US" />
-        
-        {/* OpenGraph tags */}
+        <title>GTMCentric | Complete Go-to-Market Platform for Modern SaaS</title>
+        <meta name="description" content="GTMCentric provides a complete go-to-market platform for modern SaaS companies to streamline their marketing, sales, and revenue operations." />
+        <meta name="keywords" content="go-to-market, GTM, SaaS, marketing, sales, revenue operations" />
+        <meta property="og:title" content="GTMCentric | Complete Go-to-Market Platform for Modern SaaS" />
+        <meta property="og:description" content="GTMCentric provides a complete go-to-market platform for modern SaaS companies to streamline their marketing, sales, and revenue operations." />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="GTMCentric | AI-Powered Lead Management & Sales Automation Solution" />
-        <meta property="og:description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
         <meta property="og:url" content="https://gtmcentric.com" />
-        <meta property="og:site_name" content="GTMCentric" />
-        <meta property="og:image" content="https://gtmcentric.com/og-image.png" />
-        
-        {/* Twitter Card tags */}
+        <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="GTMCentric | AI-Powered Lead Management & Sales Automation Solution" />
-        <meta name="twitter:description" content="Automate lead tracking, boost conversions, and grow your business with GTMCentric's AI-powered lead management and sales automation solution." />
-        <meta name="twitter:image" content="https://gtmcentric.com/og-image.png" />
-        
-        {/* Schema.org structured data */}
+        <meta name="twitter:title" content="GTMCentric | Complete Go-to-Market Platform for Modern SaaS" />
+        <meta name="twitter:description" content="GTMCentric provides a complete go-to-market platform for modern SaaS companies to streamline their marketing, sales, and revenue operations." />
+        <meta name="twitter:image" content="/og-image.png" />
         <script type="application/ld+json">
           {JSON.stringify(softwareAppSchema)}
         </script>
-        <script type="application/ld+json">
-          {JSON.stringify(organizationSchema)}
-        </script>
       </Helmet>
 
-      {/* Hero Section */}
-      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-14 lg:py-20">
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
-          <div className="flex flex-col items-center justify-center gap-5 md:gap-6 text-center">
-            <div className="animate-fade-in space-y-3 md:space-y-5 max-w-4xl">
-              <div className="flex justify-center">
-                <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
-                  GTMCentric
-                </span>
-              </div>
-              <div className="mt-6 md:mt-8 space-y-4">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80 pb-2">
-                  Simplify Sales
-                </h1>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white pb-2">
-                  with AI-Powered Lead Management Solution
-                </h1>
-              </div>
-              <p className="max-w-2xl mt-6 text-base md:text-lg text-muted-foreground mx-auto px-4">
-                Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
+      <main className="min-h-screen bg-black text-white">
+        {/* Hero Section */}
+        <section className="py-12 md:py-24 lg:py-32 px-4">
+          <div className="container mx-auto max-w-5xl">
+            <div className="flex flex-col items-center text-center">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-purple-500">
+                The Complete Go-to-Market Platform for Modern SaaS
+              </h1>
+              <p className="text-xl md:text-2xl mb-10 max-w-3xl text-gray-300">
+                Finally, a single platform to streamline all your marketing, sales, and
+                revenue operations so you can focus on what matters - growth.
               </p>
-              <div className="flex justify-center mt-8">
-                <button
-                  onClick={scrollToForm}
-                  className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
-                  aria-label="Get Early Access to GTMCentric"
-                >
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
+                  Get Early Access
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button variant="outline" size="lg">
+                  Book a Demo
+                </Button>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-3xl">
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    3X
+                  </div>
+                  <p className="text-sm text-gray-400">Faster GTM execution</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    50%
+                  </div>
+                  <p className="text-sm text-gray-400">Reduced tool costs</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    85%
+                  </div>
+                  <p className="text-sm text-gray-400">More efficient teams</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    2X
+                  </div>
+                  <p className="text-sm text-gray-400">Revenue growth</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Problem Section */}
+        <section className="py-12 md:py-24 bg-gradient-to-b from-black to-secondary px-4">
+          <div className="container mx-auto max-w-5xl">
+            <div className="flex flex-col items-center text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                The Problem with Current GTM Tools
+              </h2>
+              <p className="text-lg text-gray-300 max-w-3xl">
+                Today's SaaS companies use an average of 14 different tools for their
+                go-to-market strategy, causing data silos, wasted resources, and
+                disjointed customer experiences.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-muted rounded-xl p-6">
+                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
+                  <X className="w-6 h-6 text-red-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Data Silos</h3>
+                <p className="text-gray-400">
+                  Critical customer data scattered across tools with no single source
+                  of truth, leading to missed opportunities and poor decisions.
+                </p>
+              </div>
+
+              <div className="bg-muted rounded-xl p-6">
+                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
+                  <X className="w-6 h-6 text-red-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Tool Overflow</h3>
+                <p className="text-gray-400">
+                  Managing dozens of point solutions drains resources, creates
+                  complexity, and wastes money on overlapping functionality.
+                </p>
+              </div>
+
+              <div className="bg-muted rounded-xl p-6">
+                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
+                  <X className="w-6 h-6 text-red-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Slow Execution</h3>
+                <p className="text-gray-400">
+                  Disconnected workflows create friction between teams, slowing down
+                  campaigns and making it impossible to move quickly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Solution Section */}
+        <section className="py-12 md:py-24 px-4 relative overflow-hidden">
+          <div className="container mx-auto max-w-5xl relative z-10">
+            <div className="flex flex-col items-center text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Introducing GTMCentric
+              </h2>
+              <p className="text-lg text-gray-300 max-w-3xl">
+                A unified platform that brings together all the tools you need for a
+                successful go-to-market strategy, eliminating tool sprawl and
+                connecting your entire GTM motion.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-muted bg-opacity-50 backdrop-blur-sm rounded-xl p-6 border border-primary/20">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                  <Check className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Unified Data</h3>
+                <p className="text-gray-400">
+                  A single source of truth for customer data, providing full context
+                  across marketing, sales, and customer success.
+                </p>
+              </div>
+
+              <div className="bg-muted bg-opacity-50 backdrop-blur-sm rounded-xl p-6 border border-primary/20">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                  <Check className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Streamlined Tools</h3>
+                <p className="text-gray-400">
+                  Replace 8+ point solutions with one integrated platform, saving
+                  money and reducing complexity.
+                </p>
+              </div>
+
+              <div className="bg-muted bg-opacity-50 backdrop-blur-sm rounded-xl p-6 border border-primary/20">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                  <Check className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Faster Execution</h3>
+                <p className="text-gray-400">
+                  Connected workflows enable seamless collaboration between teams,
+                  accelerating your go-to-market motion.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(139,92,246,0.1),rgba(30,27,75,0))]"></div>
+        </section>
+
+        {/* What You'll Get Section */}
+        <section className="py-12 md:py-24 bg-gradient-to-b from-black to-secondary px-4">
+          <div className="container mx-auto max-w-5xl">
+            <div className="flex flex-col items-center text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                What You'll Get with GTMCentric
+              </h2>
+              <p className="text-lg text-gray-300 max-w-3xl">
+                Everything you need to run a modern, data-driven go-to-market strategy
+                in one unified platform.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Marketing Campaign Hub
+                  </h3>
+                  <p className="text-gray-400">
+                    Create, execute, and measure multi-channel campaigns from a single
+                    interface. Email marketing, social media, ads, content - all in one
+                    place.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Sales Engagement</h3>
+                  <p className="text-gray-400">
+                    Streamline your sales process with sequences, call tracking,
+                    meeting scheduling, and real-time notifications when prospects
+                    engage.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Customer Data Platform
+                  </h3>
+                  <p className="text-gray-400">
+                    Unified customer profiles, behavioral tracking, segmentation, and
+                    real-time insights to understand and engage your audience better.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Content & Asset Management
+                  </h3>
+                  <p className="text-gray-400">
+                    Centralize your content library, track performance, and ensure
+                    your team always has the latest materials at their fingertips.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Revenue Intelligence
+                  </h3>
+                  <p className="text-gray-400">
+                    Connect marketing activities to revenue outcomes with advanced
+                    attribution modeling and conversion tracking across the funnel.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex">
+                <div className="mr-4 mt-1">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Onboarding & Adoption
+                  </h3>
+                  <p className="text-gray-400">
+                    Drive customer success with personalized onboarding flows, in-app
+                    guidance, and feature adoption tracking to reduce churn.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Globe visualization */}
+            <div className="mt-16 relative h-[500px]">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-semibold mb-3">Global Reach, Local Impact</h3>
+                <p className="text-gray-400 max-w-2xl mx-auto">
+                  Join companies across the globe who are transforming their go-to-market strategy with GTMCentric.
+                </p>
+              </div>
+              <div className="relative h-[400px]">
+                <Globe className="top-0" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Early Access Section */}
+        <section className="py-12 md:py-24 px-4 relative">
+          <div className="container mx-auto max-w-5xl">
+            <Tabs defaultValue="form" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="form">Request Early Access</TabsTrigger>
+                <TabsTrigger value="demo">Book a Demo</TabsTrigger>
+              </TabsList>
+              <TabsContent value="form">
+                <div className="bg-muted bg-opacity-50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-primary/20">
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                    Get Early Access
+                  </h2>
+                  <p className="text-gray-300 mb-6">
+                    Join our exclusive early access program and be among the first to
+                    experience GTMCentric.
+                  </p>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input
+                          id="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Jane Smith"
+                          required
+                          className="bg-muted border-muted-foreground/20"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Work Email</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="jane@company.com"
+                          required
+                          className="bg-muted border-muted-foreground/20"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="company">Company Name</Label>
+                        <Input
+                          id="company"
+                          value={companyName}
+                          onChange={(e) => setCompanyName(e.target.value)}
+                          placeholder="Acme Inc"
+                          required
+                          className="bg-muted border-muted-foreground/20"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <div className="flex">
+                          <select
+                            value={countryCode}
+                            onChange={(e) => setCountryCode(e.target.value)}
+                            className="rounded-l-md w-20 bg-muted border border-r-0 border-muted-foreground/20"
+                          >
+                            {countries.map((country) => (
+                              <option key={country.name} value={country.code}>
+                                {country.flag} {country.code}
+                              </option>
+                            ))}
+                          </select>
+                          <Input
+                            id="phone"
+                            type="tel"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            placeholder="123-456-7890"
+                            required
+                            className="rounded-l-none bg-muted border-muted-foreground/20"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="companySize">Company Size</Label>
+                        <select
+                          id="companySize"
+                          value={companySize}
+                          onChange={(e) => setCompanySize(e.target.value)}
+                          required
+                          className="w-full rounded-md bg-muted border border-muted-foreground/20 px-3 py-2"
+                        >
+                          <option value="">Select company size</option>
+                          <option value="1-10">1-10 employees</option>
+                          <option value="11-50">11-50 employees</option>
+                          <option value="51-200">51-200 employees</option>
+                          <option value="201-500">201-500 employees</option>
+                          <option value="501-1000">501-1000 employees</option>
+                          <option value="1000+">1000+ employees</option>
+                        </select>
+                      </div>
+                    </div>
+                    <Button
+                      type="submit"
+                      className="w-full bg-primary hover:bg-primary/90"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Submitting..." : "Get Early Access"}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </form>
+                </div>
+              </TabsContent>
+              <TabsContent value="demo">
+                <div className="bg-muted bg-opacity-50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-primary/20">
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6">
+                    See GTMCentric in Action
+                  </h2>
+                  <p className="text-gray-300 mb-6">
+                    Schedule a personalized demo with our product specialists to see
+                    how GTMCentric can transform your go-to-market strategy.
+                  </p>
+                  <div className="aspect-video bg-black/50 rounded-lg mb-6 flex items-center justify-center">
+                    <p className="text-gray-400">Demo calendar will appear here</p>
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    Demo sessions typically last 30 minutes and include a Q&A portion
+                    to address your specific use cases.
+                  </p>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.1),rgba(30,27,75,0))]"></div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 px-4 text-center">
+          <div className="container mx-auto max-w-3xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Be Part of the GTM Revolution
+            </h2>
+            <p className="text-xl text-gray-300 mb-10">
+              Join forward-thinking SaaS companies that are transforming how they go
+              to market.
+            </p>
+            <div className="flex flex-col items-center">
+              <div className="mb-8">
+                <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium flex items-center">
                   Get Early Access
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
@@ -403,262 +562,39 @@ const Index = () => {
               </p>
             </div>
           </div>
-        </div>
-      </AuroraBackground>
+        </section>
 
-      {/* Pain Points */}
-      <section className="py-10 md:py-12 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent" />
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Tired of Losing Leads and Wasting Time?
-            </h2>
-            <div className="grid gap-6 md:gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-4 stagger-animation">
-              {[
-                {
-                  icon: <Activity className="w-6 h-6 text-[#8B5CF6]" />,
-                  text: "Manual lead tracking slows you down and kills conversions."
-                },
-                {
-                  icon: <Zap className="w-6 h-6 text-[#D946EF]" />,
-                  text: "Expensive tools with steep learning curves drain your budget."
-                },
-                {
-                  icon: <Target className="w-6 h-6 text-[#8B5CF6]" />,
-                  text: "Missed follow-ups mean lost sales opportunities."
-                },
-                {
-                  icon: <MessageSquare className="w-6 h-6 text-[#D946EF]" />,
-                  text: "Our platform fixes this with simple automation and smart AI."
-                },
-              ].map(({ icon, text }, i) => (
-                <div
-                  key={i}
-                  className="feature-card group cursor-pointer p-6"
-                >
-                  <div className="mb-4">{icon}</div>
-                  <p className="text-foreground/90 group-hover:text-white transition-colors">
-                    {text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-10 md:py-12 relative">
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              What You'll Get with GTMCentric
-            </h2>
-            <div className="grid gap-6 md:gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-3 stagger-animation">
-              {[
-                "Capture leads from anywhere—web, email, social.",
-                "AI-powered lead scoring to focus on hot prospects.",
-                "Automate follow-ups and watch conversions soar.",
-                "Seamless integration with Gmail, Outlook, Slack, and Mailchimp.",
-                "Dedicated Dashboard for managers to review performance.",
-                "AI-powered smart workflows and automation.",
-                "WhatsApp integration for seamless communication engagement with prospects.",
-              ].map((feature, i) => (
-                <div
-                  key={i}
-                  className="gradient-border"
-                >
-                  <div className="feature-card h-full p-6">
-                    <div className="flex items-start">
-                      {i === 6 ? (
-                        <MessageCircle className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
-                      ) : (
-                        <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
-                      )}
-                      <p className="text-foreground/90 text-left">{feature}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Proof */}
-      <section className="py-10 md:py-12 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
-          <div className="animate-fade-in max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Built for Growth-Centric Companies
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground mx-auto px-4">
-              Designed with inputs from 30+ Sales / GTM Heads. Join the future of GTM Strategy & Sales Automation.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Waitlist */}
-      <section className="py-10 md:py-12 relative" id="waitlist-form">
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
-          <div className="max-w-lg mx-auto text-center animate-fade-in">
-            <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Get in Early—Unlock Exclusive Benefits
-            </h2>
-            <div className="mt-6 space-y-4 text-left">
-              {[
-                "Free beta access starting April 2025.",
-                "50% off for the first 6 months on any plan - starting at just $5/user/month (regular $10).",
-                "Priority support during launch.",
-              ].map((benefit, i) => (
-                <div key={i} className="flex items-center text-foreground/90">
-                  <Check className="w-5 h-5 mr-2 text-[#8B5CF6]" />
-                  <span>{benefit}</span>
-                </div>
-              ))}
-            </div>
-            <form
-              id="waitlist-form"
-              onSubmit={handleSubmit}
-              className="glass-card p-6 md:p-8 mt-8 space-y-4"
-              aria-label="GTMCentric waitlist signup form"
-            >
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                    required
-                    aria-label="First Name"
-                  />
-                </div>
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                    required
-                    aria-label="Last Name"
-                  />
-                </div>
+        {/* Footer */}
+        <footer className="py-8 md:py-12 border-t border-muted px-4">
+          <div className="container mx-auto max-w-5xl">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-6 md:mb-0">
+                <h2 className="text-2xl font-bold text-primary">GTMCentric</h2>
+                <p className="text-sm text-gray-400 mt-2">
+                  The complete go-to-market platform
+                </p>
               </div>
-              <input
-                type="text"
-                placeholder="Company Name"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                required
-                aria-label="Company Name"
-              />
-              <input
-                type="email"
-                placeholder="Company Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                required
-                aria-label="Company Email"
-              />
-              <div className="flex gap-4">
-                <select
-                  className="px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                  value={countryCode}
-                  onChange={handleCountryCodeChange}
-                  aria-label="Country Code"
-                >
-                  {countries.map((country) => (
-                    <option key={country.code} value={country.code}>
-                      {country.flag} {country.code}
-                    </option>
-                  ))}
-                </select>
-                <div className="flex-1 flex flex-col">
-                  <input
-                    type="tel"
-                    placeholder="Mobile number"
-                    value={phone}
-                    onChange={(e) => validatePhone(e.target.value, countryCode)}
-                    className={`w-full px-4 py-3 text-foreground bg-muted/50 border ${
-                      phoneError ? "border-red-500" : "border-white/10"
-                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm`}
-                    required
-                    aria-label="Mobile Number"
-                  />
-                  {phoneError && (
-                    <p className="text-xs text-red-500 mt-1 text-left" role="alert">{phoneError}</p>
-                  )}
-                </div>
+              <div className="flex space-x-8">
+                <a href="/about" className="text-gray-400 hover:text-white">
+                  About
+                </a>
+                <a href="/contact" className="text-gray-400 hover:text-white">
+                  Contact
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white">
+                  Privacy
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white">
+                  Terms
+                </a>
               </div>
-              <select
-                value={companySize}
-                onChange={(e) => setCompanySize(e.target.value)}
-                className="w-full px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                required
-                aria-label="Company Size"
-              >
-                <option value="">Select company size</option>
-                <option value="1-10">1-10 employees</option>
-                <option value="11-50">11-50 employees</option>
-                <option value="51-200">51-200 employees</option>
-                <option value="201+">201+ employees</option>
-              </select>
-              <button
-                type="submit"
-                className="w-full px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C]"
-                disabled={isSubmitting}
-                aria-label="Reserve your spot on the GTMCentric waitlist"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Submitting...
-                  </span>
-                ) : (
-                  <>
-                    Reserve Your Spot Now
-                    <ArrowRight className="inline-block w-4 h-4 ml-2" />
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-10 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-muted-foreground">
-              <Link to="/about" className="hover:text-foreground transition-colors" aria-label="About GTMCentric">
-                About Us
-              </Link>
-              <Link to="/contact" className="hover:text-foreground transition-colors" aria-label="Contact GTMCentric">
-                Contact
-              </Link>
+            </div>
+            <div className="mt-8 text-center text-sm text-gray-500">
+              © {new Date().getFullYear()} GTMCentric. All rights reserved.
             </div>
           </div>
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            GTM automation, simplified.
-          </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </main>
+    </>
   );
-};
-
-export default Index;
+}
