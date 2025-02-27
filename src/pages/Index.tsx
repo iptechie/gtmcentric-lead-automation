@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
@@ -138,16 +139,16 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-[#1A1F2C]">
       {/* Hero Section */}
-      <AuroraBackground className="min-h-screen flex items-center justify-center overflow-hidden bg-[#1A1F2C]">
-        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 lg:pt-32 pb-16 mx-auto relative z-10">
-          <div className="flex flex-col items-center justify-center gap-8 md:gap-12 text-center">
-            <div className="animate-fade-in space-y-6 md:space-y-8 max-w-4xl">
+      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-16 lg:py-24">
+        <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
+          <div className="flex flex-col items-center justify-center gap-6 md:gap-8 text-center">
+            <div className="animate-fade-in space-y-4 md:space-y-6 max-w-4xl">
               <div className="flex justify-center">
                 <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
                   GTMCentric
                 </span>
               </div>
-              <div className="mt-6 md:mt-8 space-y-2">
+              <div className="mt-4 md:mt-6 space-y-2">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
                   Simplify Sales
                 </h1>
@@ -155,10 +156,10 @@ const Index = () => {
                   with AI-Powered Lead Management Solution
                 </h1>
               </div>
-              <p className="max-w-2xl mt-4 md:mt-6 text-base md:text-lg text-muted-foreground mx-auto px-4">
+              <p className="max-w-2xl mt-4 text-base md:text-lg text-muted-foreground mx-auto px-4">
                 Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
               </p>
-              <div className="flex justify-center mt-8">
+              <div className="flex justify-center mt-6">
                 <button
                   onClick={scrollToForm}
                   className="px-6 py-3 text-white transition-all bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[#1A1F2C] whitespace-nowrap"
@@ -167,7 +168,7 @@ const Index = () => {
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
               </div>
-              <p className="text-sm text-muted-foreground mt-4">
+              <p className="text-sm text-muted-foreground mt-2">
                 100+ companies already joined for early access
               </p>
             </div>
@@ -176,14 +177,14 @@ const Index = () => {
       </AuroraBackground>
 
       {/* Pain Points */}
-      <section className="py-16 md:py-20 relative">
+      <section className="py-12 md:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center animate-fade-in">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Tired of Losing Leads and Wasting Time?
             </h2>
-            <div className="grid gap-6 md:gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-4 stagger-animation">
+            <div className="grid gap-6 md:gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-4 stagger-animation">
               {[
                 {
                   icon: <Activity className="w-6 h-6 text-[#8B5CF6]" />,
@@ -204,7 +205,7 @@ const Index = () => {
               ].map(({ icon, text }, i) => (
                 <div
                   key={i}
-                  className="feature-card group cursor-pointer p-6 md:p-8"
+                  className="feature-card group cursor-pointer p-6"
                 >
                   <div className="mb-4">{icon}</div>
                   <p className="text-foreground/90 group-hover:text-white transition-colors">
@@ -218,13 +219,13 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-16 md:py-20 relative">
+      <section className="py-12 md:py-16 relative">
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center animate-fade-in">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               What You'll Get with GTMCentric
             </h2>
-            <div className="grid gap-6 md:gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-3 stagger-animation">
+            <div className="grid gap-6 md:gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-3 stagger-animation">
               {[
                 "Capture leads from anywhere—web, email, social.",
                 "AI-powered lead scoring to focus on hot prospects.",
@@ -238,14 +239,14 @@ const Index = () => {
                   key={i}
                   className="gradient-border"
                 >
-                  <div className="feature-card h-full p-6 md:p-8">
-                    <div className={`flex ${i === 6 ? "justify-center" : "items-start"}`}>
+                  <div className="feature-card h-full p-6">
+                    <div className="flex items-start">
                       {i === 6 ? (
                         <MessageCircle className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
                       ) : (
                         <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
                       )}
-                      <p className={`text-foreground/90 ${i === 6 ? "text-center" : "text-left"}`}>{feature}</p>
+                      <p className="text-foreground/90 text-left">{feature}</p>
                     </div>
                   </div>
                 </div>
@@ -256,14 +257,14 @@ const Index = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="py-16 md:py-20 relative">
+      <section className="py-12 md:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
           <div className="animate-fade-in max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Built for Growth-Centric Companies
             </h2>
-            <p className="mt-6 text-lg text-muted-foreground mx-auto px-4">
+            <p className="mt-4 text-lg text-muted-foreground mx-auto px-4">
               Designed with inputs from 30+ Sales / GTM Head. Join the future of GTM Strategy & Sales Automation.
             </p>
           </div>
@@ -271,14 +272,14 @@ const Index = () => {
       </section>
 
       {/* Waitlist */}
-      <section className="py-16 md:py-20 relative">
+      <section className="py-12 md:py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="max-w-lg mx-auto text-center animate-fade-in">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
               Get in Early—Unlock Exclusive Benefits
             </h2>
-            <div className="mt-8 space-y-4 text-left">
+            <div className="mt-6 space-y-4 text-left">
               {[
                 "Free beta access starting April 2025.",
                 "50% off for the first 6 months on any plan - starting at just $5/user/month (regular $10).",
@@ -293,7 +294,7 @@ const Index = () => {
             <form
               id="waitlist-form"
               onSubmit={handleSubmit}
-              className="glass-card p-6 md:p-8 mt-10 space-y-4"
+              className="glass-card p-6 md:p-8 mt-8 space-y-4"
             >
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -415,7 +416,7 @@ const Index = () => {
               </a>
             </div>
           </div>
-          <div className="mt-8 text-center text-sm text-muted-foreground">
+          <div className="mt-6 text-center text-sm text-muted-foreground">
             GTM automation, simplified.
           </div>
         </div>
