@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 // Define country data with codes, flags and validation rules
 const countries = [
@@ -39,6 +40,9 @@ const Index = () => {
   const [countryCode, setCountryCode] = useState("+1");
   const [companySize, setCompanySize] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Target date for the countdown timer - April 15, 2025
+  const betaLaunchDate = new Date("2025-04-15T00:00:00");
 
   // Schema.org structured data for software application
   const softwareAppSchema = {
@@ -387,6 +391,13 @@ const Index = () => {
                   <ArrowRight className="inline-block w-4 h-4 ml-2" />
                 </button>
               </div>
+              
+              {/* Countdown Timer */}
+              <div className="mt-10 flex flex-col items-center">
+                <p className="text-sm text-muted-foreground mb-4">Beta launching in:</p>
+                <CountdownTimer targetDate={betaLaunchDate} className="mb-6" />
+              </div>
+              
               <p className="text-sm text-muted-foreground mt-16">
                 100+ companies already joined for early access
               </p>
