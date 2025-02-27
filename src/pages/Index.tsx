@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, WhatsApp } from "lucide-react";
+import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 
@@ -241,7 +241,7 @@ const Index = () => {
                   <div className="feature-card h-full p-6 md:p-8">
                     <div className="flex items-start">
                       {i === 6 ? (
-                        <WhatsApp className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
+                        <MessageCircle className="w-5 h-5 mr-3 text-[#25D366] shrink-0 mt-1" />
                       ) : (
                         <Check className="w-5 h-5 mr-3 text-[#8B5CF6] shrink-0 mt-1" />
                       )}
