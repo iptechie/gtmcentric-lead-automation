@@ -4,17 +4,69 @@ import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 
+// Define country data with codes, flags and validation rules
+const countries = [
+  { code: "+1", name: "United States", flag: "🇺🇸", digits: 10 },
+  { code: "+44", name: "United Kingdom", flag: "🇬🇧", digits: 10 },
+  { code: "+91", name: "India", flag: "🇮🇳", digits: 10 },
+  { code: "+86", name: "China", flag: "🇨🇳", digits: 11 },
+  { code: "+81", name: "Japan", flag: "🇯🇵", digits: 10 },
+  { code: "+49", name: "Germany", flag: "🇩🇪", digits: 11 },
+  { code: "+33", name: "France", flag: "🇫🇷", digits: 9 },
+  { code: "+61", name: "Australia", flag: "🇦🇺", digits: 9 },
+  { code: "+7", name: "Russia", flag: "🇷🇺", digits: 10 },
+  { code: "+55", name: "Brazil", flag: "🇧🇷", digits: 11 },
+];
+
 const Index = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const [companySize, setCompanySize] = useState("");
+
+  const validatePhone = (value: string, selectedCountryCode: string) => {
+    // Remove any non-digit characters
+    const digitsOnly = value.replace(/\D/g, "");
+    setPhone(digitsOnly);
+    
+    // Find the selected country's validation rules
+    const country = countries.find(c => c.code === selectedCountryCode);
+    
+    if (!country) return;
+    
+    if (digitsOnly.length === 0) {
+      setPhoneError("");
+    } else if (digitsOnly.length !== country.digits) {
+      setPhoneError(`Phone number must be ${country.digits} digits for ${country.name}`);
+    } else {
+      setPhoneError("");
+    }
+  };
+
+  const handleCountryCodeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCode = e.target.value;
+    setCountryCode(newCode);
+    // Re-validate phone with new country code
+    validatePhone(phone, newCode);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check if there's a validation error
+    if (phoneError) {
+      toast({
+        title: "Validation Error",
+        description: phoneError,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     // Here we'll send the form data
     try {
-      const formData = { email, phone, companySize };
+      const formData = { email, phone: `${countryCode}${phone}`, companySize };
       console.log("Form submitted:", formData);
       
       toast({
@@ -25,6 +77,7 @@ const Index = () => {
       // Clear form
       setEmail("");
       setPhone("");
+      setCountryCode("+1");
       setCompanySize("");
     } catch (error) {
       toast({
@@ -218,23 +271,31 @@ const Index = () => {
               />
               <div className="flex gap-4">
                 <select
-                  className="w-24 px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                  defaultValue="+1"
+                  className="px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
+                  value={countryCode}
+                  onChange={handleCountryCodeChange}
                 >
-                  <option value="+1">+1</option>
-                  <option value="+44">+44</option>
-                  <option value="+91">+91</option>
-                  <option value="+86">+86</option>
-                  <option value="+81">+81</option>
+                  {countries.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.flag} {country.code}
+                    </option>
+                  ))}
                 </select>
-                <input
-                  type="tel"
-                  placeholder="Mobile number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="flex-1 px-4 py-3 text-foreground bg-muted/50 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm"
-                  required
-                />
+                <div className="flex-1 flex flex-col">
+                  <input
+                    type="tel"
+                    placeholder="Mobile number"
+                    value={phone}
+                    onChange={(e) => validatePhone(e.target.value, countryCode)}
+                    className={`w-full px-4 py-3 text-foreground bg-muted/50 border ${
+                      phoneError ? "border-red-500" : "border-white/10"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-primary backdrop-blur-sm`}
+                    required
+                  />
+                  {phoneError && (
+                    <p className="text-xs text-red-500 mt-1 text-left">{phoneError}</p>
+                  )}
+                </div>
               </div>
               <select
                 value={companySize}
