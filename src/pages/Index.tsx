@@ -357,7 +357,7 @@ const Index = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-10 lg:py-14">
+      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-14 lg:py-20">
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
           <div className="flex flex-col items-center justify-center gap-5 md:gap-6 text-center">
             <div className="animate-fade-in space-y-3 md:space-y-5 max-w-4xl">
