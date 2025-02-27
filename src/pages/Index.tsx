@@ -357,10 +357,10 @@ const Index = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-16 lg:py-24">
+      <AuroraBackground className="flex items-center justify-center overflow-hidden bg-[#1A1F2C] py-14 lg:py-20">
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
-          <div className="flex flex-col items-center justify-center gap-6 md:gap-8 text-center">
-            <div className="animate-fade-in space-y-4 md:space-y-6 max-w-4xl">
+          <div className="flex flex-col items-center justify-center gap-5 md:gap-6 text-center">
+            <div className="animate-fade-in space-y-3 md:space-y-5 max-w-4xl">
               <div className="flex justify-center">
                 <span className="px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 rounded-full inline-block backdrop-blur-sm">
                   GTMCentric
@@ -396,7 +396,7 @@ const Index = () => {
       </AuroraBackground>
 
       {/* Pain Points */}
-      <section className="py-12 md:py-16 relative">
+      <section className="py-10 md:py-12 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center animate-fade-in">
@@ -438,7 +438,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section className="py-12 md:py-16 relative">
+      <section className="py-10 md:py-12 relative">
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="text-center animate-fade-in">
             <h2 className="text-3xl font-bold sm:text-4xl text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
@@ -476,7 +476,7 @@ const Index = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="py-12 md:py-16 relative">
+      <section className="py-10 md:py-12 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto text-center">
           <div className="animate-fade-in max-w-4xl mx-auto">
@@ -484,14 +484,14 @@ const Index = () => {
               Built for Growth-Centric Companies
             </h2>
             <p className="mt-4 text-lg text-muted-foreground mx-auto px-4">
-              Designed with inputs from 30+ Sales / GTM Head. Join the future of GTM Strategy & Sales Automation.
+              Designed with inputs from 30+ Sales / GTM Heads. Join the future of GTM Strategy & Sales Automation.
             </p>
           </div>
         </div>
       </section>
 
       {/* Waitlist */}
-      <section className="py-12 md:py-16 relative" id="waitlist-form">
+      <section className="py-10 md:py-12 relative" id="waitlist-form">
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="max-w-lg mx-auto text-center animate-fade-in">
@@ -628,7 +628,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 relative">
+      <footer className="py-10 relative">
         <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent" />
         <div className="container max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto relative">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
