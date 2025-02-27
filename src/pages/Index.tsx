@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
@@ -109,7 +110,6 @@ const Index = () => {
     // Set submitting state
     setIsSubmitting(true);
     
-    // Here we'll send the form data to Google Apps Script
     try {
       const formData = { 
         "First Name": firstName,
@@ -123,39 +123,63 @@ const Index = () => {
       // Updated with the provided deployment URL
       const scriptURL = 'https://script.google.com/macros/s/AKfycbzDAsTG0cg_N-BUsi3554oEoJCJJ66sz6DywOnSz-DKbuVjpKxX30h9BOvU_V2szYAjCw/exec';
       
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-        mode: 'cors', // This is important for cross-origin requests
+      // Use JSONP approach for cross-origin issues
+      const formDataEncoded = encodeURIComponent(JSON.stringify(formData));
+      const jsonpCallback = 'callback' + Date.now();
+      
+      // Create a promise to handle the JSONP response
+      const jsonpPromise = new Promise((resolve, reject) => {
+        // Create a temporary function in the global scope
+        window[jsonpCallback] = (response) => {
+          if (response && response.result === "success") {
+            resolve(response);
+          } else {
+            reject(new Error("Submission failed"));
+          }
+          
+          // Clean up the temporary function
+          delete window[jsonpCallback];
+          document.head.removeChild(script);
+        };
+        
+        // Create script tag
+        const script = document.createElement('script');
+        script.src = `${scriptURL}?data=${formDataEncoded}&callback=${jsonpCallback}`;
+        script.onerror = () => {
+          reject(new Error("Script loading failed"));
+          delete window[jsonpCallback];
+          document.head.removeChild(script);
+        };
+        
+        // Add script to document
+        document.head.appendChild(script);
+        
+        // Set timeout in case the callback is never called
+        setTimeout(() => {
+          if (window[jsonpCallback]) {
+            reject(new Error("Request timed out"));
+            delete window[jsonpCallback];
+            document.head.removeChild(script);
+          }
+        }, 10000);
       });
       
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      await jsonpPromise;
       
-      const result = await response.json();
-      console.log(result);
+      toast({
+        title: "Success!",
+        description: "Thank you for joining our waitlist. We'll be in touch soon.",
+      });
       
-      if (result.result === 'success') {
-        toast({
-          title: "Success!",
-          description: "Thank you for joining our waitlist. We'll be in touch soon.",
-        });
-        
-        // Clear form
-        setFirstName("");
-        setLastName("");
-        setCompanyName("");
-        setEmail("");
-        setPhone("");
-        setCountryCode("+1");
-        setCompanySize("");
-      } else {
-        throw new Error(result.error || 'An unknown error occurred');
-      }
+      // Clear form
+      setFirstName("");
+      setLastName("");
+      setCompanyName("");
+      setEmail("");
+      setPhone("");
+      setCountryCode("+1");
+      setCompanySize("");
+      
     } catch (error) {
       console.error('Submission error:', error);
       toast({
