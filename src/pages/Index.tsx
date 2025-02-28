@@ -372,14 +372,11 @@ const Index = () => {
               </div>
               <div className="mt-6 md:mt-8 space-y-4">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80 pb-2">
-                  Simplify Sales
-                </h1>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-white/80 via-white/90 to-white pb-2">
-                  with AI-Powered Lead Management Solution
+                  GTMCentric - Supercharge Your GTM Strategy with AI
                 </h1>
               </div>
               <p className="max-w-2xl mt-6 text-base md:text-lg text-muted-foreground mx-auto px-4">
-                Automate lead tracking, boost conversions, and grow your business—all at a price that fits your budget.
+                Simplify GTM planning, automate lead management, and boost sales—all at a price that fits your budget.
               </p>
               <div className="flex justify-center mt-8">
                 <button
