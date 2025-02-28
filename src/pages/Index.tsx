@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowRight, Check, Activity, Zap, Target, MessageSquare, MessageCircle } from "lucide-react";
+import { ArrowRight, Check, Activity, Zap, Target, MessageSquare } from "lucide-react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { toast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
@@ -453,10 +453,8 @@ const Index = () => {
               What You'll Get with GTMCentric
             </h2>
             
-            {/* Innovative Feature Cards Layout */}
+            {/* Feature Cards Layout */}
             <div className="relative mx-auto max-w-5xl px-4">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6]/20 to-[#D946EF]/20 rounded-3xl blur-3xl opacity-30"></div>
-              
               <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 {[
                   {
