@@ -42,7 +42,7 @@ const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
 };
 
 const FaqPage = () => {
-  const [openItem, setOpenItem] = useState<number | null>(0); // Default first item open
+  const [openItem, setOpenItem] = useState<number | null>(null); // Changed from 0 to null so no item is open by default
 
   const toggleItem = (index: number) => {
     setOpenItem(openItem === index ? null : index);
