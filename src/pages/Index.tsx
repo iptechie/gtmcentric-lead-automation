@@ -464,6 +464,8 @@ const Index = () => {
                 "Dedicated Dashboard for managers to review performance.",
                 "AI-powered smart workflows and automation.",
                 "WhatsApp integration for seamless communication engagement with prospects.",
+                "Create GTM Planning in seconds with AI recommendation.",
+                "Affordable Pricing where Plans start at $10/month.",
               ].map((feature, i) => (
                 <div
                   key={i}
