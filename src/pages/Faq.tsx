@@ -1,8 +1,9 @@
 
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Home, Info, Mail, ArrowLeft } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface FaqItemProps {
   question: string;
@@ -124,6 +125,17 @@ const FaqPage = () => {
       </Helmet>
       
       <div className="container px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        {/* Navigation back link */}
+        <div className="mb-8">
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-sm text-muted-foreground hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Link>
+        </div>
+        
         <div className="text-center mb-16">
           <h1 className="heading-gradient text-4xl md:text-5xl font-bold mb-6">
             Frequently Asked Questions
@@ -143,6 +155,33 @@ const FaqPage = () => {
               onClick={() => toggleItem(index)}
             />
           ))}
+          
+          {/* Navigation Links */}
+          <div className="mt-10 pt-6 border-t border-[#FBFBFB]/20">
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                to="/"
+                className="inline-flex items-center px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
+              >
+                <Home className="w-4 h-4 mr-2" />
+                Home
+              </Link>
+              <Link
+                to="/about"
+                className="inline-flex items-center px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
+              >
+                <Info className="w-4 h-4 mr-2" />
+                About Us
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Contact
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
