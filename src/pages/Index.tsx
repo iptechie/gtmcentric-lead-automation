@@ -647,6 +647,9 @@ const Index = () => {
               <Link to="/about" className="hover:text-foreground transition-colors" aria-label="About GTMCentric">
                 About Us
               </Link>
+              <Link to="/faq" className="hover:text-foreground transition-colors" aria-label="Frequently Asked Questions">
+                FAQs
+              </Link>
               <Link to="/contact" className="hover:text-foreground transition-colors" aria-label="Contact GTMCentric">
                 Contact
               </Link>
