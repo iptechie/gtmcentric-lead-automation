@@ -454,6 +454,7 @@ const Index = () => {
             </h2>
             <div className="grid gap-6 md:gap-8 mt-10 sm:grid-cols-2 lg:grid-cols-3 stagger-animation">
               {[
+                "Create GTM Planning in seconds with AI recommendation.",
                 "Capture leads from anywhere—web, email, social.",
                 "AI-powered lead scoring to focus on hot prospects.",
                 "Automate follow-ups and watch conversions soar.",
@@ -461,7 +462,6 @@ const Index = () => {
                 "Dedicated Dashboard for managers to review performance.",
                 "AI-powered smart workflows and automation.",
                 "WhatsApp integration for seamless communication engagement with prospects.",
-                "Create GTM Planning in seconds with AI recommendation.",
                 "Affordable Pricing where Plans start at $10/month.",
               ].map((feature, i) => (
                 <div
