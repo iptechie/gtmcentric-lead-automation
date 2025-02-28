@@ -13,7 +13,7 @@ interface FaqItemProps {
 
 const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
   return (
-    <div className="border-b border-gray-200 last:border-b-0">
+    <div className="border-b border-[#FBFBFB] last:border-b-0">
       <button
         className="w-full flex items-center justify-between py-4 text-left focus:outline-none"
         onClick={onClick}
