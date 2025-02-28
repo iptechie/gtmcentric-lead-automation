@@ -13,15 +13,15 @@ interface FaqItemProps {
 
 const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
   return (
-    <div className="border-b border-[#FBFBFB] last:border-b-0">
+    <div className="border-b border-[#FBFBFB]/30 last:border-b-0">
       <button
-        className="w-full flex items-center justify-between py-4 text-left focus:outline-none"
+        className="w-full flex items-center justify-between py-5 text-left focus:outline-none focus:ring-0 group"
         onClick={onClick}
       >
-        <h3 className="text-lg font-medium text-primary">{question}</h3>
+        <h3 className="text-lg font-medium text-primary/90 group-hover:text-primary transition-colors">{question}</h3>
         <ChevronDown
           className={cn(
-            "h-5 w-5 text-primary transition-transform duration-200",
+            "h-5 w-5 text-primary/70 transition-transform duration-300 ease-in-out group-hover:text-primary",
             isOpen && "transform rotate-180"
           )}
         />
@@ -29,10 +29,10 @@ const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
       <div
         className={cn(
           "overflow-hidden transition-all duration-300 ease-in-out",
-          isOpen ? "max-h-96 opacity-100 pb-4" : "max-h-0 opacity-0"
+          isOpen ? "max-h-96 opacity-100 pb-5" : "max-h-0 opacity-0"
         )}
       >
-        <div className="prose prose-sm max-w-none text-muted-foreground">
+        <div className="prose prose-sm max-w-none text-muted-foreground/90">
           {answer}
         </div>
       </div>
@@ -41,7 +41,7 @@ const FaqItem = ({ question, answer, isOpen, onClick }: FaqItemProps) => {
 };
 
 const FaqPage = () => {
-  const [openItem, setOpenItem] = useState<number | null>(null);
+  const [openItem, setOpenItem] = useState<number | null>(0); // Default first item open
 
   const toggleItem = (index: number) => {
     setOpenItem(openItem === index ? null : index);
@@ -117,23 +117,23 @@ const FaqPage = () => {
   ];
 
   return (
-    <div className="py-12 md:py-20 bg-secondary text-foreground min-h-screen">
+    <div className="py-16 md:py-24 bg-secondary/95 text-foreground min-h-screen">
       <Helmet>
         <title>Frequently Asked Questions - GTMCentric</title>
         <meta name="description" content="Answers to common questions about GTMCentric, the AI-powered SaaS platform for go-to-market planning and sales automation." />
       </Helmet>
       
       <div className="container px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h1 className="heading-gradient text-4xl md:text-5xl font-bold mb-6">
             Frequently Asked Questions
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300/90 max-w-2xl mx-auto">
             Everything you need to know about GTMCentric and how it can help your business grow.
           </p>
         </div>
         
-        <div className="glass-card p-6 md:p-8">
+        <div className="glass-card p-8 md:p-10 rounded-3xl shadow-lg backdrop-blur-xl">
           {faqItems.map((item, index) => (
             <FaqItem
               key={index}
