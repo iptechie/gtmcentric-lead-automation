@@ -21,7 +21,7 @@ const Contact = () => {
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "email": "connect@gtmcentric.com"
+      "email": "hi@gtmcentric.com"
     }
   };
 
@@ -113,11 +113,11 @@ const Contact = () => {
                 <h3 className="text-lg font-medium text-foreground">Email Us</h3>
                 <p className="text-foreground/90 mt-1">
                   <a 
-                    href="mailto:connect@gtmcentric.com" 
+                    href="mailto:hi@gtmcentric.com" 
                     className="hover:text-[#8B5CF6] transition-colors"
-                    aria-label="Email GTMCentric at connect@gtmcentric.com"
+                    aria-label="Email GTMCentric at hi@gtmcentric.com"
                   >
-                    connect@gtmcentric.com
+                    hi@gtmcentric.com
                   </a>
                 </p>
               </div>
@@ -142,11 +142,11 @@ const Contact = () => {
               We're committed to helping businesses of all sizes streamline their go-to-market strategies 
               and close more deals. Feel free to reach out to us at 
               <a 
-                href="mailto:connect@gtmcentric.com" 
+                href="mailto:hi@gtmcentric.com" 
                 className="text-[#8B5CF6] hover:underline mx-1"
-                aria-label="Email GTMCentric at connect@gtmcentric.com"
+                aria-label="Email GTMCentric at hi@gtmcentric.com"
               >
-                connect@gtmcentric.com
+                hi@gtmcentric.com
               </a>
               with any questions or partnership inquiries.
             </p>

@@ -21,7 +21,7 @@ const About = () => {
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "email": "connect@gtmcentric.com"
+      "email": "hi@gtmcentric.com"
     }
   };
 
